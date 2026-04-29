@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoyageFinance Pro — Brazil to India</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f4f0; --surface: #ffffff; --surface2: #f0ede8; --border: #ddd9d0;
+    --accent: #c47c10; --accent2: #0d8a74; --accent3: #d4541e;
+    --text: #1a1a18; --muted: #7a7468; --green: #1a7a4a; --red: #c0392b;
+    --blue: #1a5fa8; --purple: #6b3fa0; --pink: #c0386e;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Lato', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+
+  header {
+    background: var(--surface); border-bottom: 2px solid var(--border);
+    padding: 0 1.5rem; display: flex; align-items: center;
+    justify-content: space-between; height: 60px; position: sticky;
+    top: 0; z-index: 100; flex-wrap: wrap; gap: 0.5rem;
+  }
+  .logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 900; color: var(--accent); display: flex; align-items: center; gap: 0.4rem; flex-shrink: 0; }
+  nav { display: flex; gap: 0.15rem; flex-wrap: wrap; }
+  nav button { background: none; border: none; color: var(--muted); font-family: 'Lato', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; padding: 0.4rem 0.7rem; border-radius: 6px; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+  nav button:hover { color: var(--text); background: var(--surface2); }
+  nav button.active { color: var(--accent); background: rgba(196,124,16,0.1); border-bottom: 2px solid var(--accent); }
+
+  /* DB STATUS BADGE */
+  .db-status { display: flex; align-items: center; gap: 5px; font-family: 'DM Mono', monospace; font-size: 0.6rem; padding: 3px 8px; border-radius: 100px; border: 1px solid; }
+  .db-status.connected { color: var(--green); border-color: rgba(26,122,74,0.3); background: rgba(26,122,74,0.08); }
+  .db-status.disconnected { color: var(--red); border-color: rgba(192,57,43,0.3); background: rgba(192,57,43,0.08); }
+  .db-status.loading { color: var(--accent); border-color: rgba(196,124,16,0.3); background: rgba(196,124,16,0.08); }
+  .db-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .db-dot.pulse { animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  .container { max-width: 1400px; margin: 0 auto; padding: 1.5rem; }
+  .view { display: none; }
+  .view.active { display: block; }
+
+  .dashboard-hero { background: linear-gradient(135deg, #fff8ec 0%, #edfaf7 100%); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem 2rem; margin-bottom: 1.5rem; position: relative; overflow: hidden; }
+  .dashboard-hero::before { content: '🇧🇷 ✈ 🇮🇳'; position: absolute; right: 1.5rem; top: 50%; transform: translateY(-50%); font-size: 2rem; opacity: 0.2; letter-spacing: 0.4rem; }
+  .dashboard-hero h1 { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 900; color: var(--accent); margin-bottom: 0.25rem; }
+  .dashboard-hero p { color: var(--muted); font-size: 0.85rem; }
+
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.85rem; margin-bottom: 1.5rem; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.1rem; transition: border-color 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .stat-card:hover { border-color: var(--accent); }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 0.63rem; letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase; margin-bottom: 0.35rem; }
+  .stat-value { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--text); }
+  .stat-value.green { color: var(--green); }
+  .stat-value.red { color: var(--red); }
+  .stat-value.gold { color: var(--accent); }
+  .stat-value.teal { color: var(--accent2); }
+  .stat-value.purple { color: var(--purple); }
+  .stat-sub { font-size: 0.7rem; color: var(--muted); margin-top: 0.15rem; }
+
+  .section-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 0.85rem; display: flex; align-items: center; gap: 0.65rem; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 1.5rem; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  .table-toolbar { display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1rem; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .search-box { flex: 1; min-width: 150px; background: var(--surface2); border: 1px solid var(--border); border-radius: 7px; padding: 0.4rem 0.75rem; color: var(--text); font-family: 'Lato', sans-serif; font-size: 0.82rem; outline: none; transition: border-color 0.2s; }
+  .search-box:focus { border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: collapse; min-width: 600px; }
+  th { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 0.6rem 0.85rem; text-align: left; border-bottom: 1px solid var(--border); background: var(--surface2); white-space: nowrap; }
+  td { padding: 0.7rem 0.85rem; font-size: 0.82rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(0,0,0,0.015); }
+
+  .badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 100px; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.03em; font-family: 'DM Mono', monospace; white-space: nowrap; }
+  .badge-paid { background: rgba(26,122,74,0.12); color: var(--green); }
+  .badge-partial { background: rgba(196,124,16,0.12); color: var(--accent); }
+  .badge-unpaid { background: rgba(192,57,43,0.12); color: var(--red); }
+  .badge-installment { background: rgba(107,63,160,0.12); color: var(--purple); }
+
+  .client-name { font-weight: 700; color: var(--text); }
+  .client-email { font-size: 0.71rem; color: var(--muted); margin-top: 1px; }
+  .amount { font-family: 'DM Mono', monospace; font-size: 0.81rem; }
+  .amount.total { color: var(--accent); font-weight: 500; }
+  .amount.paid { color: var(--green); }
+  .amount.due { color: var(--red); }
+  .amount.profit { color: var(--accent2); }
+
+  .btn { padding: 0.35rem 0.8rem; border-radius: 6px; border: none; font-family: 'Lato', sans-serif; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: all 0.2s; letter-spacing: 0.02em; }
+  .btn-gold { background: var(--accent); color: #fff; }
+  .btn-gold:hover { background: #a86a0a; }
+  .btn-outline { background: none; border: 1px solid var(--border); color: var(--muted); }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-danger { background: rgba(192,57,43,0.08); color: var(--red); border: 1px solid rgba(192,57,43,0.2); }
+  .btn-danger:hover { background: rgba(192,57,43,0.18); }
+  .btn-sm { padding: 0.22rem 0.55rem; font-size: 0.7rem; }
+  .btn-teal { background: var(--accent2); color: #fff; }
+  .btn-outline:disabled,.btn-gold:disabled,.btn-danger:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .action-btns { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+
+  /* LOADING SPINNER */
+  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-row { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.85rem; }
+
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(3px); z-index: 200; align-items: flex-start; justify-content: center; padding: 1rem; overflow-y: auto; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; width: 100%; max-width: 760px; animation: slideUp 0.2s ease; margin: auto; box-shadow: 0 8px 40px rgba(0,0,0,0.14); }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .modal-header { padding: 1.2rem 1.5rem 0.85rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+  .modal-close { background: none; border: none; color: var(--muted); font-size: 1.4rem; cursor: pointer; line-height: 1; transition: color 0.2s; }
+  .modal-close:hover { color: var(--text); }
+  .modal-body { padding: 1.2rem 1.5rem; max-height: 75vh; overflow-y: auto; }
+  .modal-footer { padding: 0.85rem 1.5rem 1.2rem; display: flex; gap: 0.65rem; justify-content: flex-end; border-top: 1px solid var(--border); }
+
+  /* FORM */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+  .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.3rem; }
+  .form-group.full { grid-column: 1 / -1; }
+  label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  input, select, textarea { background: var(--surface2); border: 1px solid var(--border); border-radius: 7px; padding: 0.5rem 0.75rem; color: var(--text); font-family: 'Lato', sans-serif; font-size: 0.85rem; outline: none; transition: border-color 0.2s; width: 100%; }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+  input::placeholder, textarea::placeholder { color: var(--muted); }
+
+  /* PAYMENT BANNER */
+  .payment-summary-banner { background: linear-gradient(135deg, #fff8ec, #edfaf7); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.1rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.75rem; }
+  .psb-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.2rem; }
+  .psb-value { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; }
+
+  .cost-section { margin-top: 1.1rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 9px; padding: 1rem; }
+  .cost-section-title { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent2); margin-bottom: 0.8rem; }
+  .cost-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+  .cost-total-row { display: flex; justify-content: space-between; align-items: center; margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid var(--border); }
+  .cost-total-label { font-size: 0.8rem; font-weight: 700; color: var(--muted); }
+  .cost-total-value { font-family: 'DM Mono', monospace; font-size: 1.1rem; font-weight: 500; color: var(--accent); }
+
+  /* TABS */
+  .modal-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 1.1rem; overflow-x: auto; }
+  .modal-tab { background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); font-family: 'Lato', sans-serif; font-size: 0.78rem; font-weight: 700; padding: 0.55rem 1rem; cursor: pointer; transition: all 0.18s; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: -1px; white-space: nowrap; }
+  .modal-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* INSTALLMENTS */
+  .install-row { display: grid; grid-template-columns: 32px 1fr 1fr 100px; gap: 0.4rem; align-items: center; padding: 0.45rem 0; border-bottom: 1px solid var(--border); }
+  .install-row:last-child { border-bottom: none; }
+  .install-header { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--muted); letter-spacing: 0.07em; text-transform: uppercase; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); margin-bottom: 0.25rem; }
+
+  /* PROFIT */
+  .profit-box { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-top: 0.9rem; }
+  .profit-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 0.8rem; }
+  .profit-item-label { font-family: 'DM Mono', monospace; font-size: 0.61rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.25rem; }
+  .profit-item-value { font-family: 'DM Mono', monospace; font-size: 1rem; font-weight: 500; }
+
+  /* BATCHES */
+  .batch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0.9rem; margin-bottom: 1.5rem; }
+  .batch-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .batch-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .batch-card.nov::before { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+  .batch-card.dec::before { background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
+  .batch-card.jan::before { background: linear-gradient(90deg, #10b981, #3b82f6); }
+  .batch-card.feb::before { background: linear-gradient(90deg, #ec4899, #f59e0b); }
+  .batch-card.mar::before { background: linear-gradient(90deg, #34d399, #60a5fa); }
+  .batch-card.custom::before { background: linear-gradient(90deg, #a78bfa, #2dd4bf); }
+  .batch-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .batch-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; margin-top: 0.5rem; }
+  .batch-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem; margin-top: 0.65rem; }
+  .batch-stat-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; }
+  .batch-stat-val { font-family: 'DM Mono', monospace; font-size: 0.87rem; font-weight: 500; margin-top: 1px; }
+  .batch-chip { display: inline-flex; align-items: center; gap: 4px; padding: 0.12rem 0.45rem; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 0.63rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; }
+
+  /* FILTER PILLS */
+  .tab-pills { display: flex; gap: 0.4rem; margin-bottom: 1.1rem; flex-wrap: wrap; }
+  .tab-pill { background: var(--surface); border: 1px solid var(--border); color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.07em; text-transform: uppercase; padding: 0.28rem 0.7rem; border-radius: 100px; cursor: pointer; transition: all 0.2s; }
+  .tab-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .tab-pill:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+
+  /* DETAIL MODAL */
+  .detail-hero { background: linear-gradient(135deg, #fff8ec 0%, #edfaf7 100%); border: 1px solid var(--border); border-radius: 10px; padding: 1.4rem; margin-bottom: 1.1rem; display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
+  .detail-name { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; color: var(--accent); margin-bottom: 0.18rem; }
+  .detail-meta { color: var(--muted); font-size: 0.79rem; margin-bottom: 0.35rem; }
+  .detail-route { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--accent2); letter-spacing: 0.04em; }
+  .breakdown-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.6rem; margin-bottom: 1.1rem; }
+  .breakdown-card { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 0.8rem; }
+  .breakdown-icon { font-size: 1.1rem; margin-bottom: 0.3rem; }
+  .breakdown-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.12rem; }
+  .breakdown-amount { font-family: 'DM Mono', monospace; font-size: 0.88rem; font-weight: 500; color: var(--text); }
+  .payment-section { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.05rem; margin-bottom: 1.1rem; }
+  .payment-bar-track { height: 8px; background: var(--surface2); border-radius: 100px; overflow: hidden; margin: 0.65rem 0 0.35rem; }
+  .payment-bar-fill { height: 100%; background: linear-gradient(90deg, var(--green), var(--accent2)); border-radius: 100px; transition: width 0.6s ease; }
+  .payment-bar-labels { display: flex; justify-content: space-between; font-family: 'DM Mono', monospace; font-size: 0.7rem; }
+  .install-detail { width: 100%; border-collapse: collapse; margin-top: 0.65rem; }
+  .install-detail th { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--muted); letter-spacing: 0.07em; text-transform: uppercase; padding: 0.45rem 0.7rem; background: var(--surface2); text-align: left; }
+  .install-detail td { padding: 0.55rem 0.7rem; font-size: 0.81rem; border-bottom: 1px solid var(--border); }
+  .install-detail tr:last-child td { border-bottom: none; }
+
+  /* REPORTS */
+  .report-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.9rem; margin-bottom: 1.5rem; }
+  .report-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .report-card h3 { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 0.9rem; }
+  .chart-bar-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem; }
+  .chart-bar-label { font-size: 0.74rem; color: var(--muted); width: 85px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .chart-bar-track { flex: 1; height: 6px; background: var(--surface2); border-radius: 100px; overflow: hidden; }
+  .chart-bar-fill { height: 100%; border-radius: 100px; }
+  .chart-bar-val { font-family: 'DM Mono', monospace; font-size: 0.71rem; color: var(--text); width: 75px; text-align: right; }
+
+  /* EXPENSE STATS */
+  #expenseStats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.85rem; }
+
+  .empty-state { text-align: center; padding: 2.2rem 1rem; color: var(--muted); }
+  .empty-state .icon { font-size: 2.2rem; margin-bottom: 0.65rem; }
+  .empty-state p { margin-bottom: 1.1rem; font-size: 0.85rem; }
+
+  .toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: var(--surface); border-radius: 9px; padding: 0.65rem 1.1rem; font-size: 0.82rem; z-index: 999; animation: fadeIn 0.22s ease; box-shadow: 0 4px 18px rgba(0,0,0,0.12); }
+  .toast.success { border: 1px solid var(--green); color: var(--green); }
+  .toast.error { border: 1px solid var(--red); color: var(--red); }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(7px); } to { opacity:1; transform:translateY(0); } }
+
+  @media (max-width: 700px) {
+    header { height: auto; padding: 0.6rem 1rem; }
+    .container { padding: 0.85rem; }
+    .form-grid, .cost-grid, .profit-box { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .dashboard-hero h1 { font-size: 1.3rem; }
+    .dashboard-hero::before { display: none; }
+    .detail-hero { flex-direction: column; }
+    .install-row { grid-template-columns: 28px 1fr 1fr; }
+    .modal-body { padding: 1rem; }
+    .modal-footer { padding: 0.75rem 1rem; }
+    .modal-header { padding: 1rem 1rem 0.75rem; }
+    .breakdown-grid { grid-template-columns: 1fr 1fr; }
+    .profit-box { grid-template-columns: 1fr; }
+    table { min-width: 480px; }
+    td, th { padding: 0.55rem 0.65rem; }
+  }
+  @media (max-width: 420px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    nav { width: 100%; overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div style="display:flex;align-items:center;gap:0.65rem;">
+    <div class="logo">✈ VoyageFinance Pro</div>
+    <div class="db-status loading" id="dbStatus">
+      <div class="db-dot pulse"></div>
+      <span id="dbStatusText">Connecting…</span>
+    </div>
+  </div>
+  <nav>
+    <button class="active" onclick="showView('dashboard')">Dashboard</button>
+    <button onclick="showView('clients')">Clients</button>
+    <button onclick="showView('batches')">Batches</button>
+    <button onclick="showView('expenses')">Expenses</button>
+    <button onclick="showView('reports')">Reports</button>
+  </nav>
+</header>
+
+<!-- ===== ADD/EDIT CLIENT MODAL ===== -->
+<div class="modal-overlay" id="clientModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Add New Client</div>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tabs">
+        <button class="modal-tab active" onclick="switchTab('info')">Client Info</button>
+        <button class="modal-tab" onclick="switchTab('costs')">Cost Breakdown</button>
+        <button class="modal-tab" onclick="switchTab('payment')">Payment Plan</button>
+        <button class="modal-tab" onclick="switchTab('profit')">Profit</button>
+      </div>
+      <!-- TAB: INFO -->
+      <div class="tab-content active" id="tab-info">
+        <div class="form-grid">
+          <div class="form-group"><label>Full Name *</label><input type="text" id="fName" placeholder="e.g. Carlos Mendes"></div>
+          <div class="form-group"><label>Email *</label><input type="email" id="fEmail" placeholder="carlos@email.com"></div>
+          <div class="form-group"><label>Phone (WhatsApp)</label><input type="tel" id="fPhone" placeholder="+55 11 99999-9999"></div>
+          <div class="form-group"><label>Passport No.</label><input type="text" id="fPassport" placeholder="BR1234567"></div>
+          <div class="form-group"><label>Departure Date</label><input type="date" id="fDeparture"></div>
+          <div class="form-group"><label>Return Date</label><input type="date" id="fReturn"></div>
+          <div class="form-group"><label>No. of Travellers</label><input type="number" id="fTravellers" min="1" value="1" oninput="calcTotal()"></div>
+          <div class="form-group"><label>Package Type</label><select id="fPackage"><option>Standard</option><option>Premium</option><option>Luxury</option><option>Custom</option></select></div>
+          <div class="form-group"><label>Batch / Group</label><select id="fBatch"><option value="">— No Batch —</option></select></div>
+          <div class="form-group"><label>Payment Status</label><select id="fStatus" onchange="updatePaymentMode()"><option value="Unpaid">Unpaid</option><option value="Partial">Partial</option><option value="Paid">Paid</option><option value="Installment">Installment Plan</option></select></div>
+          <div class="form-group full"><label>Notes / Special Requests</label><textarea id="fNotes" rows="2" placeholder="Dietary requirements, special requests..."></textarea></div>
+        </div>
+      </div>
+      <!-- TAB: COSTS -->
+      <div class="tab-content" id="tab-costs">
+        <div class="cost-section" style="margin-top:0;">
+          <div class="cost-section-title">💰 Cost Breakdown (₹ INR per person)</div>
+          <div class="cost-grid">
+            <div class="form-group"><label>✈ Flight Tickets</label><input type="number" id="cFlight" min="0" value="0" oninput="calcTotal()"></div>
+            <div class="form-group"><label>🏨 Hotel / Accommodation</label><input type="number" id="cHotel" min="0" value="0" oninput="calcTotal()"></div>
+            <div class="form-group"><label>🏛 Monuments / Entry Fees</label><input type="number" id="cMonuments" min="0" value="0" oninput="calcTotal()"></div>
+            <div class="form-group"><label>🚌 Local Transport</label><input type="number" id="cTransport" min="0" value="0" oninput="calcTotal()"></div>
+            <div class="form-group"><label>🎁 Gifts & Shopping</label><input type="number" id="cGifts" min="0" value="0" oninput="calcTotal()"></div>
+            <div class="form-group"><label>🎟 Event / Show Tickets</label><input type="number" id="cEvents" min="0" value="0" oninput="calcTotal()"></div>
+            <div class="form-group"><label>🍽 Meals / Food</label><input type="number" id="cMeals" min="0" value="0" oninput="calcTotal()"></div>
+            <div class="form-group"><label>🛡 Travel Insurance</label><input type="number" id="cInsurance" min="0" value="0" oninput="calcTotal()"></div>
+            <div class="form-group"><label>🧳 Visa / Documentation</label><input type="number" id="cVisa" min="0" value="0" oninput="calcTotal()"></div>
+            <div class="form-group"><label>📋 Other Expenses</label><input type="number" id="cOther" min="0" value="0" oninput="calcTotal()"></div>
+          </div>
+          <div class="cost-total-row"><div class="cost-total-label">TOTAL PER PERSON</div><div class="cost-total-value" id="totalPerPerson">₹ 0</div></div>
+          <div class="cost-total-row" style="padding-top:0.3rem;margin-top:0;"><div class="cost-total-label" style="color:var(--accent)">GRAND TOTAL (ALL TRAVELLERS)</div><div class="cost-total-value" id="grandTotal" style="color:var(--accent);font-size:1.25rem;">₹ 0</div></div>
+        </div>
+      </div>
+      <!-- TAB: PAYMENT -->
+      <div class="tab-content" id="tab-payment">
+        <div class="payment-summary-banner" id="paymentBanner">
+          <div class="psb-item"><div class="psb-label">Total Package Amount</div><div class="psb-value" id="bannerTotal" style="color:var(--accent);">₹0</div><div style="font-size:0.7rem;color:var(--muted);margin-top:2px;" id="bannerPerPerson"></div></div>
+          <div class="psb-item"><div class="psb-label">Amount Paid</div><div class="psb-value" id="bannerPaid" style="color:var(--green);">₹0</div></div>
+          <div class="psb-item"><div class="psb-label">Balance Due</div><div class="psb-value" id="bannerDue" style="color:var(--red);">₹0</div></div>
+        </div>
+        <div id="paymentModeSection">
+          <div class="form-grid" style="margin-bottom:1rem;">
+            <div class="form-group"><label>Payment Type</label><select id="fPaymentType" onchange="togglePaymentType()"><option value="full">Full / Partial Payment</option><option value="installment">Installment Plan</option></select></div>
+            <div class="form-group" id="fullPaymentGroup"><label>Amount Paid So Far (₹ INR)</label><input type="number" id="fPaid" min="0" value="0" placeholder="0" oninput="calcTotal()"></div>
+          </div>
+          <div id="installmentSection" style="display:none;">
+            <div class="form-grid" style="margin-bottom:0.9rem;">
+              <div class="form-group"><label>No. of Installments (1–12)</label><select id="fInstallCount" onchange="buildInstallmentRows()"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select></div>
+              <div class="form-group"><label>First Payment Date</label><input type="date" id="fFirstPayDate" oninput="buildInstallmentRows()"></div>
+            </div>
+            <div style="font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--muted);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:0.45rem;">Installment Schedule</div>
+            <div class="install-header install-row" style="padding-bottom:0.35rem;"><span>#</span><span>Due Date</span><span>Amount (₹)</span><span>Status</span></div>
+            <div id="installmentRows" style="max-height:260px;overflow-y:auto;"></div>
+            <div class="cost-total-row" style="margin-top:0.65rem;"><div class="cost-total-label">TOTAL SCHEDULED</div><div class="cost-total-value" id="installTotal">₹ 0</div></div>
+          </div>
+        </div>
+      </div>
+      <!-- TAB: PROFIT -->
+      <div class="tab-content" id="tab-profit">
+        <div class="form-grid">
+          <div class="form-group"><label>Selling Price (₹) — per person</label><input type="number" id="fSellingPrice" min="0" value="0" oninput="calcProfit()"></div>
+          <div class="form-group"><label>Your Cost Price (₹) — per person</label><input type="number" id="fCostPrice" min="0" value="0" oninput="calcProfit()"></div>
+          <div class="form-group"><label>Agency Commission (₹)</label><input type="number" id="fCommission" min="0" value="0" oninput="calcProfit()"></div>
+          <div class="form-group"><label>Other Income (₹)</label><input type="number" id="fOtherIncome" min="0" value="0" oninput="calcProfit()"></div>
+        </div>
+        <div class="profit-box" id="profitPreview">
+          <div class="profit-item"><div class="profit-item-label">Revenue (Selling × Travellers)</div><div class="profit-item-value" id="pp-revenue" style="color:var(--accent)">₹ 0</div></div>
+          <div class="profit-item"><div class="profit-item-label">Total Cost (Cost × Travellers)</div><div class="profit-item-value" id="pp-cost" style="color:var(--red)">₹ 0</div></div>
+          <div class="profit-item"><div class="profit-item-label">Net Profit</div><div class="profit-item-value" id="pp-profit" style="color:var(--green)">₹ 0</div></div>
+        </div>
+        <div style="margin-top:0.65rem;font-size:0.76rem;color:var(--muted);">Net Profit = (Selling − Cost) × Travellers + Commission + Other Income</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold" id="saveClientBtn" onclick="saveClient()">Save Client</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal" style="max-width:840px;">
+    <div class="modal-header"><div class="modal-title">Client Details</div><button class="modal-close" onclick="closeDetailModal()">×</button></div>
+    <div class="modal-body" id="detailBody"></div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeDetailModal()">Close</button></div>
+  </div>
+</div>
+
+<!-- BATCH MODAL -->
+<div class="modal-overlay" id="batchModal">
+  <div class="modal" style="max-width:460px;">
+    <div class="modal-header"><div class="modal-title" id="batchModalTitle">Create Batch</div><button class="modal-close" onclick="closeBatchModal()">×</button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label>Batch Name *</label><input type="text" id="bName" placeholder="e.g. November Batch 2024"></div>
+        <div class="form-group"><label>Month / Season</label><select id="bMonth"><option value="nov">November</option><option value="dec">December</option><option value="jan">January</option><option value="feb">February</option><option value="mar">March</option><option value="custom">Custom</option></select></div>
+        <div class="form-group"><label>Departure Date</label><input type="date" id="bDeparture"></div>
+        <div class="form-group"><label>Return Date</label><input type="date" id="bReturn"></div>
+        <div class="form-group full"><label>Max Capacity</label><input type="number" id="bCapacity" min="1" value="20"></div>
+        <div class="form-group full"><label>Notes</label><textarea id="bNotes" rows="2" placeholder="Batch notes..."></textarea></div>
+      </div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeBatchModal()">Cancel</button><button class="btn btn-gold" id="saveBatchBtn" onclick="saveBatch()">Save Batch</button></div>
+  </div>
+</div>
+
+<!-- EXPENSE MODAL -->
+<div class="modal-overlay" id="expenseModal">
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-header"><div class="modal-title">Add Expense</div><button class="modal-close" onclick="closeExpenseModal()">×</button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label>Description *</label><input type="text" id="eDesc" placeholder="e.g. Office rent"></div>
+        <div class="form-group"><label>Category</label><select id="eCat"><option>Operations</option><option>Marketing</option><option>Staff</option><option>Tech</option><option>Travel</option><option>Other</option></select></div>
+        <div class="form-group"><label>Amount (₹ INR) *</label><input type="number" id="eAmount" min="0" placeholder="0"></div>
+        <div class="form-group"><label>Date</label><input type="date" id="eDate"></div>
+        <div class="form-group"><label>Linked Batch (optional)</label><select id="eBatch"><option value="">— None —</option></select></div>
+        <div class="form-group"><label>Receipt / Ref No.</label><input type="text" id="eRef" placeholder="REF-001"></div>
+      </div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeExpenseModal()">Cancel</button><button class="btn btn-gold" id="saveExpenseBtn" onclick="saveExpense()">Add Expense</button></div>
+  </div>
+</div>
+
+<!-- ===== DASHBOARD ===== -->
+<div class="view active container" id="view-dashboard">
+  <div class="dashboard-hero">
+    <div>
+      <h1>VoyageFinance Pro</h1>
+      <p>Brazil → India Tourism Finance Manager &nbsp;|&nbsp; Connected to MongoDB Atlas</p>
+    </div>
+  </div>
+  <div class="stats-grid" id="statsGrid">
+    <div class="stat-card"><div class="stat-label">Total Clients</div><div class="stat-value gold" id="stat-clients">—</div></div>
+    <div class="stat-card"><div class="stat-label">Revenue Collected</div><div class="stat-value green" id="stat-revenue">—</div></div>
+    <div class="stat-card"><div class="stat-label">Amount Due</div><div class="stat-value red" id="stat-due">—</div></div>
+    <div class="stat-card"><div class="stat-label">Net Profit</div><div class="stat-value teal" id="stat-profit">—</div></div>
+    <div class="stat-card"><div class="stat-label">Total Expenses</div><div class="stat-value red" id="stat-expenses">—</div></div>
+    <div class="stat-card"><div class="stat-label">Active Batches</div><div class="stat-value purple" id="stat-batches">—</div></div>
+    <div class="stat-card"><div class="stat-label">Paid Clients</div><div class="stat-value green" id="stat-paid">—</div></div>
+    <div class="stat-card"><div class="stat-label">Total Travellers</div><div class="stat-value gold" id="stat-travellers">—</div></div>
+  </div>
+  <div class="section-title">Recent Clients</div>
+  <div class="table-wrap" id="dashRecentWrap"><div class="loading-row"><div class="spinner"></div> Loading from MongoDB…</div></div>
+</div>
+
+<!-- ===== CLIENTS ===== -->
+<div class="view container" id="view-clients">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.75rem;">
+    <div class="section-title" style="margin:0;flex:1;">Client Management</div>
+    <button class="btn btn-gold" onclick="openModal()">+ Add Client</button>
+  </div>
+  <div class="tab-pills">
+    <div class="tab-pill active" onclick="filterClients('All',this)">All</div>
+    <div class="tab-pill" onclick="filterClients('Paid',this)">Paid</div>
+    <div class="tab-pill" onclick="filterClients('Partial',this)">Partial</div>
+    <div class="tab-pill" onclick="filterClients('Installment',this)">Installment</div>
+    <div class="tab-pill" onclick="filterClients('Unpaid',this)">Unpaid</div>
+  </div>
+  <div class="table-wrap">
+    <div class="table-toolbar">
+      <input class="search-box" type="text" placeholder="Search by name, email, passport, batch..." id="searchBox" oninput="renderClients()">
+      <select id="batchFilter" style="background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:0.4rem 0.75rem;color:var(--text);font-size:0.8rem;outline:none;" onchange="renderClients()"><option value="">All Batches</option></select>
+      <span id="clientCount" style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--muted);white-space:nowrap;"></span>
+    </div>
+    <div class="table-scroll" id="clientTableWrap"><div class="loading-row"><div class="spinner"></div> Loading…</div></div>
+  </div>
+</div>
+
+<!-- ===== BATCHES ===== -->
+<div class="view container" id="view-batches">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.75rem;">
+    <div class="section-title" style="margin:0;flex:1;">Batch / Group Management</div>
+    <button class="btn btn-gold" onclick="openBatchModal()">+ Create Batch</button>
+  </div>
+  <div class="batch-grid" id="batchGrid"><div class="loading-row" style="grid-column:1/-1;"><div class="spinner"></div> Loading…</div></div>
+  <div id="batchDetailSection" style="display:none;">
+    <div class="section-title" id="batchDetailTitle">Batch Clients</div>
+    <div class="table-wrap" id="batchDetailTable"></div>
+  </div>
+</div>
+
+<!-- ===== EXPENSES ===== -->
+<div class="view container" id="view-expenses">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.75rem;">
+    <div class="section-title" style="margin:0;flex:1;">Agency Expenses</div>
+    <button class="btn btn-gold" onclick="openExpenseModal()">+ Add Expense</button>
+  </div>
+  <div id="expenseStats"></div>
+  <div class="table-wrap" style="margin-top:1.25rem;">
+    <div class="table-toolbar">
+      <select id="expCatFilter" style="background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:0.4rem 0.75rem;color:var(--text);font-size:0.8rem;outline:none;" onchange="renderExpenses()"><option value="">All Categories</option><option>Operations</option><option>Marketing</option><option>Staff</option><option>Tech</option><option>Travel</option><option>Other</option></select>
+      <select id="expBatchFilter" style="background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:0.4rem 0.75rem;color:var(--text);font-size:0.8rem;outline:none;" onchange="renderExpenses()"><option value="">All Batches</option></select>
+      <span id="expTotal" style="font-family:'DM Mono',monospace;font-size:0.71rem;color:var(--muted);margin-left:auto;"></span>
+    </div>
+    <div class="table-scroll" id="expenseTableWrap"><div class="loading-row"><div class="spinner"></div> Loading…</div></div>
+  </div>
+</div>
+
+<!-- ===== REPORTS ===== -->
+<div class="view container" id="view-reports">
+  <div class="section-title">Financial Reports</div>
+  <div class="report-cards" id="reportCards"></div>
+  <div class="section-title">Revenue by Category</div>
+  <div class="table-wrap" style="padding:1.25rem;margin-bottom:1.5rem;" id="categoryBreakdown"></div>
+  <div class="section-title">Profit by Batch</div>
+  <div class="table-wrap" style="padding:1.25rem;" id="batchProfitReport"></div>
+</div>
+
+<script>
+// ============================================================
+//  CONFIG — change this to your backend URL when deploying
+// ============================================================
+const API = 'http://localhost:5000/api';
+
+// ====== STATE ======
+let clients = [], batches = [], expenses = [];
+let editingId = null, editingBatchId = null, currentFilter = 'All';
+
+// ====== HELPERS ======
+function fmt(n) { return '₹' + Number(n||0).toLocaleString('en-IN', {maximumFractionDigits:0}); }
+
+function setDbStatus(state, text) {
+  const el = document.getElementById('dbStatus');
+  const dot = el.querySelector('.db-dot');
+  el.className = 'db-status ' + state;
+  dot.className = 'db-dot' + (state === 'connected' ? ' pulse' : '');
+  document.getElementById('dbStatusText').textContent = text;
+}
+
+function setBtn(id, loading, text) {
+  const btn = document.getElementById(id);
+  if (!btn) return;
+  btn.disabled = loading;
+  btn.innerHTML = loading ? `<span class="spinner" style="width:12px;height:12px;"></span> Saving…` : text;
+}
+
+// ====== API CALLS ======
+async function apiFetch(path, opts = {}) {
+  const res = await fetch(API + path, {
+    headers: { 'Content-Type': 'application/json' },
+    ...opts
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: 'Server error' }));
+    throw new Error(err.error || 'Request failed');
+  }
+  return res.json();
+}
+
+async function loadAll() {
+  setDbStatus('loading', 'Connecting…');
+  try {
+    [clients, batches, expenses] = await Promise.all([
+      apiFetch('/clients'),
+      apiFetch('/batches'),
+      apiFetch('/expenses')
+    ]);
+    setDbStatus('connected', 'MongoDB ✓');
+    renderDashboard();
+    populateBatchFilters();
+  } catch (e) {
+    setDbStatus('disconnected', 'Disconnected');
+    showToast('Cannot connect to backend. Is the server running?', 'error');
+  }
+}
+
+// ====== VIEWS ======
+function showView(v) {
+  document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+  document.getElementById('view-' + v).classList.add('active');
+  const map = ['dashboard','clients','batches','expenses','reports'];
+  document.querySelectorAll('nav button').forEach((b,i) => b.classList.toggle('active', map[i] === v));
+  if (v==='dashboard') renderDashboard();
+  if (v==='clients') { populateBatchFilters(); renderClients(); }
+  if (v==='batches') renderBatches();
+  if (v==='expenses') { populateExpenseBatchFilters(); renderExpenses(); renderExpenseStats(); }
+  if (v==='reports') renderReports();
+}
+
+// ====== MODAL TABS ======
+function switchTab(tab) {
+  document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelectorAll('.modal-tab').forEach(t => {
+    if (t.getAttribute('onclick')?.includes("'"+tab+"'")) t.classList.add('active');
+  });
+  if (tab === 'payment') updatePaymentBanner();
+}
+
+function updatePaymentBanner() {
+  const total = calcTotalVal();
+  const travellers = parseInt(document.getElementById('fTravellers').value)||1;
+  const pp = travellers > 0 ? total / travellers : 0;
+  let paid = 0;
+  const payType = document.getElementById('fPaymentType').value;
+  if (payType === 'installment') {
+    const count = parseInt(document.getElementById('fInstallCount').value)||3;
+    for (let i = 0; i < count; i++) {
+      const el = document.getElementById('iAmt_'+i);
+      const sel = document.getElementById('iStatus_'+i);
+      if (el && sel && sel.value === 'paid') paid += parseFloat(el.value)||0;
+    }
+  } else {
+    paid = parseFloat(document.getElementById('fPaid').value)||0;
+  }
+  const due = Math.max(0, total - paid);
+  document.getElementById('bannerTotal').textContent = fmt(total);
+  document.getElementById('bannerPerPerson').textContent = travellers > 1 ? fmt(pp) + ' × ' + travellers + ' persons' : '';
+  document.getElementById('bannerPaid').textContent = fmt(paid);
+  document.getElementById('bannerDue').textContent = due > 0 ? fmt(due) : '✓ Settled';
+  document.getElementById('bannerDue').style.color = due > 0 ? 'var(--red)' : 'var(--green)';
+}
+
+// ====== MODAL ======
+function openModal(id) {
+  editingId = id || null;
+  populateBatchSelect();
+  const costs = ['cFlight','cHotel','cMonuments','cTransport','cGifts','cEvents','cMeals','cInsurance','cVisa','cOther'];
+  if (id) {
+    const c = clients.find(x => x._id === id);
+    document.getElementById('modalTitle').textContent = 'Edit Client';
+    document.getElementById('fName').value = c.name;
+    document.getElementById('fEmail').value = c.email;
+    document.getElementById('fPhone').value = c.phone||'';
+    document.getElementById('fPassport').value = c.passport||'';
+    document.getElementById('fDeparture').value = c.departure||'';
+    document.getElementById('fReturn').value = c.returnDate||'';
+    document.getElementById('fTravellers').value = c.travellers||1;
+    document.getElementById('fPackage').value = c.package||'Standard';
+    document.getElementById('fBatch').value = c.batchId||'';
+    document.getElementById('fStatus').value = c.status;
+    document.getElementById('fNotes').value = c.notes||'';
+    const cs = c.costs||{};
+    const ck = ['flight','hotel','monuments','transport','gifts','events','meals','insurance','visa','other'];
+    costs.forEach((f,i) => document.getElementById(f).value = cs[ck[i]]||0);
+    document.getElementById('fSellingPrice').value = c.sellingPrice||0;
+    document.getElementById('fCostPrice').value = c.costPrice||0;
+    document.getElementById('fCommission').value = c.commission||0;
+    document.getElementById('fOtherIncome').value = c.otherIncome||0;
+    if (c.paymentType === 'installment') {
+      document.getElementById('fPaymentType').value = 'installment';
+      document.getElementById('fInstallCount').value = (c.installments||[]).length || 3;
+      togglePaymentType();
+      renderSavedInstallments(c.installments||[]);
+    } else {
+      document.getElementById('fPaymentType').value = 'full';
+      document.getElementById('fPaid').value = c.paid||0;
+      togglePaymentType();
+    }
+  } else {
+    document.getElementById('modalTitle').textContent = 'Add New Client';
+    ['fName','fEmail','fPhone','fPassport','fNotes'].forEach(f => document.getElementById(f).value = '');
+    document.getElementById('fTravellers').value = 1;
+    document.getElementById('fPackage').value = 'Standard';
+    document.getElementById('fStatus').value = 'Unpaid';
+    document.getElementById('fBatch').value = '';
+    costs.forEach(f => document.getElementById(f).value = 0);
+    document.getElementById('fPaid').value = 0;
+    document.getElementById('fSellingPrice').value = 0;
+    document.getElementById('fCostPrice').value = 0;
+    document.getElementById('fCommission').value = 0;
+    document.getElementById('fOtherIncome').value = 0;
+    document.getElementById('fPaymentType').value = 'full';
+    document.getElementById('fDeparture').value = '';
+    document.getElementById('fReturn').value = '';
+    togglePaymentType();
+  }
+  calcTotal(); calcProfit();
+  switchTab('info');
+  document.getElementById('clientModal').classList.add('open');
+}
+function closeModal() { document.getElementById('clientModal').classList.remove('open'); editingId = null; }
+
+function populateBatchSelect() {
+  const sel = document.getElementById('fBatch');
+  sel.innerHTML = '<option value="">— No Batch —</option>';
+  batches.forEach(b => sel.innerHTML += `<option value="${b._id}">${b.name}</option>`);
+}
+
+function populateBatchFilters() {
+  ['batchFilter'].forEach(id => {
+    const sel = document.getElementById(id); if (!sel) return;
+    const cur = sel.value;
+    sel.innerHTML = '<option value="">All Batches</option>';
+    batches.forEach(b => sel.innerHTML += `<option value="${b._id}">${b.name}</option>`);
+    sel.value = cur;
+  });
+}
+
+function togglePaymentType() {
+  const t = document.getElementById('fPaymentType').value;
+  document.getElementById('fullPaymentGroup').style.display = t==='full' ? '' : 'none';
+  document.getElementById('installmentSection').style.display = t==='installment' ? '' : 'none';
+  if (t==='installment') buildInstallmentRows();
+  updatePaymentBanner();
+}
+
+function buildInstallmentRows() {
+  const count = parseInt(document.getElementById('fInstallCount').value)||3;
+  const grandTotal = calcTotalVal();
+  const amt = Math.round(grandTotal / count);
+  const firstDate = document.getElementById('fFirstPayDate').value;
+  let html = '';
+  for (let i = 0; i < count; i++) {
+    let dueDate = '';
+    if (firstDate) { const d = new Date(firstDate); d.setMonth(d.getMonth()+i); dueDate = d.toISOString().split('T')[0]; }
+    const isLast = i === count - 1;
+    const lastAmt = isLast ? grandTotal - amt*(count-1) : amt;
+    html += `<div class="install-row">
+      <span style="font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--muted);">${i+1}</span>
+      <input type="date" id="iDate_${i}" value="${dueDate}" style="font-size:0.78rem;padding:0.28rem 0.45rem;">
+      <input type="number" id="iAmt_${i}" value="${lastAmt}" min="0" oninput="updateInstallTotal()" style="font-size:0.78rem;padding:0.28rem 0.45rem;">
+      <select id="iStatus_${i}" onchange="updateInstallTotal()" style="font-size:0.75rem;padding:0.28rem 0.45rem;">
+        <option value="pending">Pending</option><option value="paid">Paid</option><option value="overdue">Overdue</option>
+      </select>
+    </div>`;
+  }
+  document.getElementById('installmentRows').innerHTML = html;
+  updateInstallTotal();
+}
+
+function renderSavedInstallments(installments) {
+  let html = '';
+  installments.forEach((inst, i) => {
+    html += `<div class="install-row">
+      <span style="font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--muted);">${i+1}</span>
+      <input type="date" id="iDate_${i}" value="${inst.date||''}" style="font-size:0.78rem;padding:0.28rem 0.45rem;">
+      <input type="number" id="iAmt_${i}" value="${inst.amount||0}" min="0" oninput="updateInstallTotal()" style="font-size:0.78rem;padding:0.28rem 0.45rem;">
+      <select id="iStatus_${i}" onchange="updateInstallTotal()" style="font-size:0.75rem;padding:0.28rem 0.45rem;">
+        <option value="pending" ${inst.status==='pending'?'selected':''}>Pending</option>
+        <option value="paid" ${inst.status==='paid'?'selected':''}>Paid</option>
+        <option value="overdue" ${inst.status==='overdue'?'selected':''}>Overdue</option>
+      </select>
+    </div>`;
+  });
+  document.getElementById('installmentRows').innerHTML = html;
+  document.getElementById('fInstallCount').value = installments.length;
+  updateInstallTotal();
+}
+
+function updateInstallTotal() {
+  const count = parseInt(document.getElementById('fInstallCount').value)||3;
+  let total = 0;
+  for (let i = 0; i < count; i++) {
+    const el = document.getElementById('iAmt_'+i);
+    if (el) total += parseFloat(el.value)||0;
+  }
+  document.getElementById('installTotal').textContent = fmt(total);
+  updatePaymentBanner();
+}
+
+function getInstallments() {
+  const count = parseInt(document.getElementById('fInstallCount').value)||3;
+  const arr = [];
+  for (let i = 0; i < count; i++) {
+    arr.push({ date: document.getElementById('iDate_'+i)?.value||'', amount: parseFloat(document.getElementById('iAmt_'+i)?.value)||0, status: document.getElementById('iStatus_'+i)?.value||'pending' });
+  }
+  return arr;
+}
+
+function calcTotalVal() {
+  const t = parseInt(document.getElementById('fTravellers').value)||1;
+  const fields = ['cFlight','cHotel','cMonuments','cTransport','cGifts','cEvents','cMeals','cInsurance','cVisa','cOther'];
+  const pp = fields.reduce((s,f) => s+(parseFloat(document.getElementById(f).value)||0), 0);
+  return pp * t;
+}
+
+function calcTotal() {
+  const t = parseInt(document.getElementById('fTravellers').value)||1;
+  const fields = ['cFlight','cHotel','cMonuments','cTransport','cGifts','cEvents','cMeals','cInsurance','cVisa','cOther'];
+  const pp = fields.reduce((s,f) => s+(parseFloat(document.getElementById(f).value)||0), 0);
+  document.getElementById('totalPerPerson').textContent = fmt(pp);
+  document.getElementById('grandTotal').textContent = fmt(pp * t);
+  calcProfit(); updatePaymentBanner();
+}
+
+function calcProfit() {
+  const t = parseInt(document.getElementById('fTravellers').value)||1;
+  const sp = parseFloat(document.getElementById('fSellingPrice').value)||0;
+  const cp = parseFloat(document.getElementById('fCostPrice').value)||0;
+  const comm = parseFloat(document.getElementById('fCommission').value)||0;
+  const oi = parseFloat(document.getElementById('fOtherIncome').value)||0;
+  const rev = sp * t; const cost = cp * t; const profit = (sp-cp)*t+comm+oi;
+  document.getElementById('pp-revenue').textContent = fmt(rev);
+  document.getElementById('pp-cost').textContent = fmt(cost);
+  const pel = document.getElementById('pp-profit');
+  pel.textContent = fmt(profit);
+  pel.style.color = profit >= 0 ? 'var(--green)' : 'var(--red)';
+}
+
+function updatePaymentMode() {
+  const s = document.getElementById('fStatus').value;
+  if (s === 'Installment') document.getElementById('fPaymentType').value = 'installment';
+  togglePaymentType();
+}
+
+// ====== SAVE CLIENT (API) ======
+async function saveClient() {
+  const name = document.getElementById('fName').value.trim();
+  const email = document.getElementById('fEmail').value.trim();
+  if (!name || !email) { alert('Name and Email are required.'); return; }
+
+  const travellers = parseInt(document.getElementById('fTravellers').value)||1;
+  const ck = ['flight','hotel','monuments','transport','gifts','events','meals','insurance','visa','other'];
+  const cf = ['cFlight','cHotel','cMonuments','cTransport','cGifts','cEvents','cMeals','cInsurance','cVisa','cOther'];
+  const costs = {};
+  let pp = 0;
+  ck.forEach((k,i) => { costs[k] = parseFloat(document.getElementById(cf[i]).value)||0; pp += costs[k]; });
+
+  const payType = document.getElementById('fPaymentType').value;
+  let paid = 0, installments = [];
+  if (payType === 'installment') {
+    installments = getInstallments();
+    paid = installments.filter(x=>x.status==='paid').reduce((s,x)=>s+x.amount,0);
+  } else {
+    paid = parseFloat(document.getElementById('fPaid').value)||0;
+  }
+
+  const total = pp * travellers;
+  let status;
+  if (payType==='installment') status='Installment';
+  else if (paid>=total && total>0) status='Paid';
+  else if (paid>0) status='Partial';
+  else status='Unpaid';
+
+  const sp = parseFloat(document.getElementById('fSellingPrice').value)||0;
+  const cp = parseFloat(document.getElementById('fCostPrice').value)||0;
+  const comm = parseFloat(document.getElementById('fCommission').value)||0;
+  const oi = parseFloat(document.getElementById('fOtherIncome').value)||0;
+
+  const payload = {
+    name, email,
+    phone: document.getElementById('fPhone').value.trim(),
+    passport: document.getElementById('fPassport').value.trim(),
+    departure: document.getElementById('fDeparture').value,
+    returnDate: document.getElementById('fReturn').value,
+    travellers, package: document.getElementById('fPackage').value,
+    batchId: document.getElementById('fBatch').value,
+    status, paid, paymentType: payType, installments,
+    notes: document.getElementById('fNotes').value.trim(),
+    costs, totalPerPerson: pp, total,
+    sellingPrice: sp, costPrice: cp, commission: comm, otherIncome: oi,
+    profit: (sp-cp)*travellers+comm+oi
+  };
+
+  setBtn('saveClientBtn', true, 'Save Client');
+  try {
+    if (editingId) {
+      const updated = await apiFetch('/clients/' + editingId, { method: 'PUT', body: JSON.stringify(payload) });
+      clients[clients.findIndex(x=>x._id===editingId)] = updated;
+    } else {
+      const created = await apiFetch('/clients', { method: 'POST', body: JSON.stringify(payload) });
+      clients.unshift(created);
+    }
+    closeModal(); renderClients(); renderDashboard();
+    showToast('Client saved to MongoDB! ✓');
+  } catch(e) {
+    showToast('Error: ' + e.message, 'error');
+  } finally {
+    setBtn('saveClientBtn', false, 'Save Client');
+  }
+}
+
+async function deleteClient(id) {
+  if (!confirm('Delete this client? This cannot be undone.')) return;
+  try {
+    await apiFetch('/clients/' + id, { method: 'DELETE' });
+    clients = clients.filter(x => x._id !== id);
+    renderClients(); renderDashboard();
+    showToast('Client deleted.');
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+// ====== FILTER / RENDER CLIENTS ======
+function filterClients(f, el) {
+  currentFilter = f;
+  document.querySelectorAll('.tab-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  renderClients();
+}
+
+function renderClients() {
+  const q = (document.getElementById('searchBox')?.value||'').toLowerCase();
+  const bf = document.getElementById('batchFilter')?.value||'';
+  let list = clients;
+  if (currentFilter !== 'All') list = list.filter(c => c.status === currentFilter);
+  if (bf) list = list.filter(c => c.batchId === bf);
+  if (q) list = list.filter(c =>
+    c.name.toLowerCase().includes(q) || c.email.toLowerCase().includes(q) ||
+    (c.passport||'').toLowerCase().includes(q) ||
+    (getBatchName(c.batchId)||'').toLowerCase().includes(q)
+  );
+  const wrap = document.getElementById('clientTableWrap');
+  const ce = document.getElementById('clientCount');
+  if (ce) ce.textContent = list.length + ' client(s)';
+  if (!list.length) { wrap.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><p>No clients found.</p></div>`; return; }
+  wrap.innerHTML = `<table>
+    <thead><tr><th>Client</th><th>Batch</th><th>Travel Dates</th><th>Pax</th><th>Package</th><th>Total Cost</th><th>Paid</th><th>Balance</th><th>Profit</th><th>Status</th><th>Actions</th></tr></thead>
+    <tbody>${list.map(c => {
+      const due = c.total - c.paid;
+      const badge = c.status==='Paid'?'badge-paid':c.status==='Partial'?'badge-partial':c.status==='Installment'?'badge-installment':'badge-unpaid';
+      const dep = c.departure ? new Date(c.departure).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) : '—';
+      const ret = c.returnDate ? new Date(c.returnDate).toLocaleDateString('en-IN',{day:'2-digit',month:'short'}) : '—';
+      const bname = getBatchName(c.batchId);
+      const profitColor = (c.profit||0) >= 0 ? 'var(--green)' : 'var(--red)';
+      return `<tr>
+        <td><div class="client-name">${c.name}</div><div class="client-email">${c.email}</div>${c.passport?`<div class="client-email">🛂 ${c.passport}</div>`:''}</td>
+        <td>${bname?`<span class="badge" style="background:rgba(107,63,160,0.1);color:var(--purple)">${bname}</span>`:'<span style="color:var(--muted);font-size:0.72rem;">—</span>'}</td>
+        <td style="white-space:nowrap;">${dep}<br><span style="font-size:0.7rem;color:var(--muted)">→ ${ret}</span></td>
+        <td style="text-align:center;">${c.travellers||1}</td>
+        <td><span class="badge" style="background:rgba(26,95,168,0.1);color:var(--blue)">${c.package||'—'}</span></td>
+        <td><span class="amount total">${fmt(c.total)}</span></td>
+        <td><span class="amount paid">${fmt(c.paid)}</span></td>
+        <td><span class="amount due">${due>0?fmt(due):'<span style="color:var(--green)">✓</span>'}</span></td>
+        <td><span style="font-family:'DM Mono',monospace;font-size:0.81rem;color:${profitColor}">${fmt(c.profit||0)}</span></td>
+        <td><span class="badge ${badge}">${c.status}</span></td>
+        <td><div class="action-btns">
+          <button class="btn btn-outline btn-sm" onclick="showDetail('${c._id}')">View</button>
+          <button class="btn btn-outline btn-sm" onclick="openModal('${c._id}')">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteClient('${c._id}')">Del</button>
+        </div></td>
+      </tr>`;
+    }).join('')}</tbody>
+  </table>`;
+}
+
+function getBatchName(id) { return id ? (batches.find(b=>b._id===id)?.name||'') : ''; }
+
+// ====== DETAIL MODAL ======
+function showDetail(id) {
+  const c = clients.find(x=>x._id===id); if (!c) return;
+  const due = c.total - c.paid;
+  const pct = c.total > 0 ? Math.min(100,(c.paid/c.total)*100) : 0;
+  const dep = c.departure ? new Date(c.departure).toLocaleDateString('en-IN',{weekday:'short',day:'2-digit',month:'long',year:'numeric'}) : 'Not set';
+  const ret = c.returnDate ? new Date(c.returnDate).toLocaleDateString('en-IN',{weekday:'short',day:'2-digit',month:'long',year:'numeric'}) : 'Not set';
+  const badge = c.status==='Paid'?'badge-paid':c.status==='Partial'?'badge-partial':c.status==='Installment'?'badge-installment':'badge-unpaid';
+  const costs = c.costs||{};
+  const catI={flight:'✈',hotel:'🏨',monuments:'🏛',transport:'🚌',gifts:'🎁',events:'🎟',meals:'🍽',insurance:'🛡',visa:'🧳',other:'📋'};
+  const catL={flight:'Flight',hotel:'Hotel',monuments:'Monuments',transport:'Transport',gifts:'Gifts',events:'Events',meals:'Meals',insurance:'Insurance',visa:'Visa & Docs',other:'Other'};
+  const bname = getBatchName(c.batchId);
+  let installHtml = '';
+  if (c.paymentType==='installment' && c.installments?.length) {
+    const instPaid=c.installments.filter(x=>x.status==='paid').reduce((s,x)=>s+x.amount,0);
+    const instPending=c.installments.filter(x=>x.status==='pending').reduce((s,x)=>s+x.amount,0);
+    installHtml=`<div class="payment-section" style="margin-top:0.9rem;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--accent2);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.65rem;">📅 Installment Schedule</div>
+      <table class="install-detail"><thead><tr><th>#</th><th>Due Date</th><th>Amount</th><th>Status</th></tr></thead>
+      <tbody>${c.installments.map((inst,i)=>{
+        const sc=inst.status==='paid'?'var(--green)':inst.status==='overdue'?'var(--red)':'var(--muted)';
+        return `<tr><td style="color:var(--muted);font-family:'DM Mono',monospace;">${i+1}</td><td>${inst.date?new Date(inst.date).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'—'}</td><td><span class="amount">${fmt(inst.amount)}</span></td><td><span style="color:${sc};font-family:'DM Mono',monospace;font-size:0.76rem;text-transform:uppercase;">${inst.status}</span></td></tr>`;
+      }).join('')}</tbody></table>
+      <div style="display:flex;gap:2rem;margin-top:0.65rem;padding-top:0.65rem;border-top:1px solid var(--border);">
+        <div><div style="font-size:0.67rem;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;">Paid</div><div style="color:var(--green);font-family:'DM Mono',monospace;">${fmt(instPaid)}</div></div>
+        <div><div style="font-size:0.67rem;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;">Pending</div><div style="color:var(--accent);font-family:'DM Mono',monospace;">${fmt(instPending)}</div></div>
+      </div></div>`;
+  }
+  const profitColor=(c.profit||0)>=0?'var(--green)':'var(--red)';
+  document.getElementById('detailBody').innerHTML=`
+    <div class="detail-hero">
+      <div><div class="detail-name">${c.name}</div><div class="detail-meta">📧 ${c.email}${c.phone?` | 📱 ${c.phone}`:''}${c.passport?` | 🛂 ${c.passport}`:''}</div><div class="detail-route">🇧🇷 Brazil → 🇮🇳 India | ${c.travellers||1} traveller(s) | ${c.package||'Standard'}${bname?` | 📦 ${bname}`:''}</div><div style="margin-top:0.6rem;display:flex;gap:0.4rem;flex-wrap:wrap;"><span class="badge ${badge}">${c.status}</span></div></div>
+      <div style="text-align:right;flex-shrink:0;"><div style="font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--muted);">DEPARTURE</div><div style="font-size:0.85rem;margin-bottom:0.35rem;">${dep}</div><div style="font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--muted);">RETURN</div><div style="font-size:0.85rem;">${ret}</div></div>
+    </div>
+    <div class="section-title">Cost Breakdown</div>
+    <div class="breakdown-grid">${Object.entries(catI).map(([k,icon])=>{const amt=costs[k]||0;if(!amt)return'';return`<div class="breakdown-card"><div class="breakdown-icon">${icon}</div><div class="breakdown-label">${catL[k]}</div><div class="breakdown-amount">${fmt(amt)}<span style="font-size:0.6rem;color:var(--muted)"> /person</span></div></div>`;}).join('')||'<p style="color:var(--muted);font-size:0.8rem;">No breakdown entered.</p>'}</div>
+    <div class="payment-section">
+      <div class="section-title" style="margin-bottom:0.45rem;">Payment Summary</div>
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.85rem;">
+        <div><div style="font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;">Total Package</div><div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--accent);">${fmt(c.total)}</div></div>
+        <div><div style="font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;">Amount Paid</div><div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--green);">${fmt(c.paid)}</div></div>
+        <div><div style="font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;">Balance Due</div><div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:${due>0?'var(--red)':'var(--green)'};">${due>0?fmt(due):'Settled ✓'}</div></div>
+        <div><div style="font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;">Net Profit</div><div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:${profitColor};">${fmt(c.profit||0)}</div></div>
+      </div>
+      <div class="payment-bar-track"><div class="payment-bar-fill" style="width:${pct}%"></div></div>
+      <div class="payment-bar-labels"><span style="color:var(--green);">${pct.toFixed(0)}% Paid</span><span style="color:var(--red);">${(100-pct).toFixed(0)}% Due</span></div>
+    </div>
+    ${installHtml}
+    ${c.notes?`<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:1rem;font-size:0.83rem;color:var(--muted);line-height:1.6;"><strong style="color:var(--accent2);font-family:'DM Mono',monospace;font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;">Notes</strong><br><br>${c.notes}</div>`:''}
+  `;
+  document.getElementById('detailModal').classList.add('open');
+}
+function closeDetailModal() { document.getElementById('detailModal').classList.remove('open'); }
+
+// ====== BATCHES ======
+function openBatchModal(id) {
+  editingBatchId = id || null;
+  if (id) {
+    const b = batches.find(x=>x._id===id);
+    document.getElementById('batchModalTitle').textContent = 'Edit Batch';
+    document.getElementById('bName').value = b.name;
+    document.getElementById('bMonth').value = b.month||'nov';
+    document.getElementById('bDeparture').value = b.departure||'';
+    document.getElementById('bReturn').value = b.returnDate||'';
+    document.getElementById('bCapacity').value = b.capacity||20;
+    document.getElementById('bNotes').value = b.notes||'';
+  } else {
+    document.getElementById('batchModalTitle').textContent = 'Create Batch';
+    ['bName','bNotes'].forEach(f=>document.getElementById(f).value='');
+    document.getElementById('bMonth').value='nov'; document.getElementById('bDeparture').value='';
+    document.getElementById('bReturn').value=''; document.getElementById('bCapacity').value=20;
+  }
+  document.getElementById('batchModal').classList.add('open');
+}
+function closeBatchModal() { document.getElementById('batchModal').classList.remove('open'); editingBatchId=null; }
+
+async function saveBatch() {
+  const name = document.getElementById('bName').value.trim();
+  if (!name) { alert('Batch name required.'); return; }
+  const payload = { name, month: document.getElementById('bMonth').value, departure: document.getElementById('bDeparture').value, returnDate: document.getElementById('bReturn').value, capacity: parseInt(document.getElementById('bCapacity').value)||20, notes: document.getElementById('bNotes').value.trim() };
+  setBtn('saveBatchBtn', true, 'Save Batch');
+  try {
+    if (editingBatchId) {
+      const updated = await apiFetch('/batches/' + editingBatchId, { method: 'PUT', body: JSON.stringify(payload) });
+      batches[batches.findIndex(x=>x._id===editingBatchId)] = updated;
+    } else {
+      const created = await apiFetch('/batches', { method: 'POST', body: JSON.stringify(payload) });
+      batches.unshift(created);
+    }
+    closeBatchModal(); renderBatches(); populateBatchFilters();
+    showToast('Batch saved to MongoDB! ✓');
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+  finally { setBtn('saveBatchBtn', false, 'Save Batch'); }
+}
+
+async function deleteBatch(id) {
+  if (!confirm('Delete batch? Clients will remain but lose batch assignment.')) return;
+  try {
+    await apiFetch('/batches/' + id, { method: 'DELETE' });
+    clients.forEach(c => { if (c.batchId===id) c.batchId=''; });
+    batches = batches.filter(x=>x._id!==id);
+    renderBatches(); populateBatchFilters();
+    showToast('Batch deleted.');
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+function renderBatches() {
+  const grid = document.getElementById('batchGrid');
+  if (!batches.length) { grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1;"><div class="icon">📦</div><p>No batches yet.</p><button class="btn btn-gold" onclick="openBatchModal()">Create Batch</button></div>`; document.getElementById('batchDetailSection').style.display='none'; return; }
+  grid.innerHTML = batches.map(b => {
+    const bc=clients.filter(c=>c.batchId===b._id);
+    const revenue=bc.reduce((s,c)=>s+c.paid,0); const profit=bc.reduce((s,c)=>s+(c.profit||0),0);
+    const due=bc.reduce((s,c)=>s+Math.max(0,c.total-c.paid),0);
+    const dep=b.departure?new Date(b.departure).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'—';
+    const profitColor=profit>=0?'var(--green)':'var(--red)';
+    const fill=b.capacity>0?Math.min(100,bc.length/b.capacity*100):0;
+    return `<div class="batch-card ${b.month}" onclick="showBatchDetail('${b._id}')">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <span class="batch-chip" style="background:rgba(107,63,160,0.1);color:var(--purple);">${b.month.toUpperCase()}</span>
+        <div class="action-btns"><button class="btn btn-outline btn-sm" onclick="event.stopPropagation();openBatchModal('${b._id}')">Edit</button><button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deleteBatch('${b._id}')">Del</button></div>
+      </div>
+      <div class="batch-name">${b.name}</div>
+      <div style="font-size:0.73rem;color:var(--muted);margin-bottom:0.65rem;">✈ ${dep} | ${bc.length}/${b.capacity} filled</div>
+      <div style="height:4px;background:var(--surface2);border-radius:100px;overflow:hidden;margin-bottom:0.65rem;"><div style="height:100%;background:var(--accent);width:${fill}%;border-radius:100px;"></div></div>
+      <div class="batch-stats">
+        <div><div class="batch-stat-label">Clients</div><div class="batch-stat-val" style="color:var(--accent);">${bc.length}</div></div>
+        <div><div class="batch-stat-label">Revenue</div><div class="batch-stat-val" style="color:var(--green);">${fmt(revenue)}</div></div>
+        <div><div class="batch-stat-label">Due</div><div class="batch-stat-val" style="color:var(--red);">${fmt(due)}</div></div>
+        <div><div class="batch-stat-label">Profit</div><div class="batch-stat-val" style="color:${profitColor};">${fmt(profit)}</div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function showBatchDetail(batchId) {
+  const b = batches.find(x=>x._id===batchId); if (!b) return;
+  const bc = clients.filter(c=>c.batchId===batchId);
+  const sec = document.getElementById('batchDetailSection');
+  document.getElementById('batchDetailTitle').textContent = b.name + ' — Clients';
+  sec.style.display = '';
+  sec.scrollIntoView({behavior:'smooth', block:'start'});
+  if (!bc.length) { document.getElementById('batchDetailTable').innerHTML=`<div class="empty-state"><div class="icon">👥</div><p>No clients in this batch yet.</p></div>`; return; }
+  document.getElementById('batchDetailTable').innerHTML=`<div class="table-scroll"><table><thead><tr><th>Client</th><th>Pax</th><th>Total</th><th>Paid</th><th>Profit</th><th>Status</th><th></th></tr></thead><tbody>${bc.map(c=>{
+    const badge=c.status==='Paid'?'badge-paid':c.status==='Partial'?'badge-partial':c.status==='Installment'?'badge-installment':'badge-unpaid';
+    return `<tr><td><div class="client-name">${c.name}</div><div class="client-email">${c.email}</div></td><td style="text-align:center;">${c.travellers||1}</td><td><span class="amount total">${fmt(c.total)}</span></td><td><span class="amount paid">${fmt(c.paid)}</span></td><td style="color:${(c.profit||0)>=0?'var(--green)':'var(--red)'};font-family:'DM Mono',monospace;font-size:0.81rem;">${fmt(c.profit||0)}</td><td><span class="badge ${badge}">${c.status}</span></td><td><button class="btn btn-outline btn-sm" onclick="showDetail('${c._id}')">View</button></td></tr>`;
+  }).join('')}</tbody></table></div>`;
+}
+
+// ====== EXPENSES ======
+function openExpenseModal() {
+  ['eDesc','eRef'].forEach(f=>document.getElementById(f).value='');
+  document.getElementById('eCat').value='Operations'; document.getElementById('eAmount').value='';
+  document.getElementById('eDate').value=new Date().toISOString().split('T')[0];
+  populateExpenseBatchFilters();
+  document.getElementById('expenseModal').classList.add('open');
+}
+function closeExpenseModal() { document.getElementById('expenseModal').classList.remove('open'); }
+
+function populateExpenseBatchFilters() {
+  ['eBatch','expBatchFilter'].forEach(id => {
+    const sel = document.getElementById(id); if (!sel) return;
+    const cur = sel.value;
+    sel.innerHTML = id==='eBatch'?'<option value="">— None —</option>':'<option value="">All Batches</option>';
+    batches.forEach(b => sel.innerHTML += `<option value="${b._id}">${b.name}</option>`);
+    sel.value = cur;
+  });
+}
+
+async function saveExpense() {
+  const desc = document.getElementById('eDesc').value.trim();
+  const amount = parseFloat(document.getElementById('eAmount').value)||0;
+  if (!desc || !amount) { alert('Description and amount are required.'); return; }
+  const payload = { desc, category: document.getElementById('eCat').value, amount, date: document.getElementById('eDate').value, batchId: document.getElementById('eBatch').value, ref: document.getElementById('eRef').value.trim() };
+  setBtn('saveExpenseBtn', true, 'Add Expense');
+  try {
+    const created = await apiFetch('/expenses', { method: 'POST', body: JSON.stringify(payload) });
+    expenses.unshift(created);
+    closeExpenseModal(); renderExpenses(); renderExpenseStats();
+    showToast('Expense saved to MongoDB! ✓');
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+  finally { setBtn('saveExpenseBtn', false, 'Add Expense'); }
+}
+
+async function deleteExpense(id) {
+  if (!confirm('Delete this expense?')) return;
+  try {
+    await apiFetch('/expenses/' + id, { method: 'DELETE' });
+    expenses = expenses.filter(x => x._id !== id);
+    renderExpenses(); renderExpenseStats();
+    showToast('Expense deleted.');
+  } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+function renderExpenseStats() {
+  const total = expenses.reduce((s,e)=>s+e.amount,0);
+  const cats = {};
+  expenses.forEach(e => cats[e.category] = (cats[e.category]||0)+e.amount);
+  const topCat = Object.entries(cats).sort((a,b)=>b[1]-a[1])[0];
+  document.getElementById('expenseStats').innerHTML=`
+    <div class="stat-card"><div class="stat-label">Total Expenses</div><div class="stat-value red">${fmt(total)}</div></div>
+    <div class="stat-card"><div class="stat-label">This Month</div><div class="stat-value red">${fmt(expenses.filter(e=>{const m=new Date(e.date||e.createdAt);const n=new Date();return m.getMonth()===n.getMonth()&&m.getFullYear()===n.getFullYear();}).reduce((s,e)=>s+e.amount,0))}</div></div>
+    <div class="stat-card"><div class="stat-label">No. of Entries</div><div class="stat-value gold">${expenses.length}</div></div>
+    <div class="stat-card"><div class="stat-label">Top Category</div><div class="stat-value" style="font-size:0.95rem;padding-top:0.15rem;">${topCat?topCat[0]:'—'}</div>${topCat?`<div class="stat-sub">${fmt(topCat[1])}</div>`:''}</div>
+  `;
+}
+
+function renderExpenses() {
+  const cf = document.getElementById('expCatFilter')?.value||'';
+  const bf = document.getElementById('expBatchFilter')?.value||'';
+  let list = expenses;
+  if (cf) list = list.filter(e=>e.category===cf);
+  if (bf) list = list.filter(e=>e.batchId===bf);
+  const total = list.reduce((s,e)=>s+e.amount,0);
+  const te = document.getElementById('expTotal'); if (te) te.textContent=`Total: ${fmt(total)}`;
+  const wrap = document.getElementById('expenseTableWrap');
+  if (!list.length) { wrap.innerHTML=`<div class="empty-state"><div class="icon">💸</div><p>No expenses found.</p></div>`; return; }
+  wrap.innerHTML=`<table><thead><tr><th>Date</th><th>Description</th><th>Category</th><th>Linked Batch</th><th>Ref No.</th><th>Amount</th><th></th></tr></thead>
+    <tbody>${list.map(e=>{
+      const d=e.date?new Date(e.date).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'—';
+      const catColorMap={'Operations':'var(--blue)','Marketing':'var(--pink)','Staff':'var(--purple)','Tech':'var(--accent2)','Travel':'var(--accent)','Other':'var(--muted)'};
+      const col=catColorMap[e.category]||'var(--muted)';
+      return `<tr><td style="font-size:0.78rem;color:var(--muted);font-family:'DM Mono',monospace;">${d}</td><td><div class="client-name">${e.desc}</div></td><td><span class="badge" style="background:rgba(0,0,0,0.05);color:${col}">${e.category}</span></td><td>${e.batchId?`<span style="color:var(--purple);font-size:0.78rem;">${getBatchName(e.batchId)}</span>`:'<span style="color:var(--muted);font-size:0.72rem;">—</span>'}</td><td style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--muted);">${e.ref||'—'}</td><td><span class="amount due">${fmt(e.amount)}</span></td><td><button class="btn btn-danger btn-sm" onclick="deleteExpense('${e._id}')">Del</button></td></tr>`;
+    }).join('')}</tbody></table>`;
+}
+
+// ====== DASHBOARD ======
+function renderDashboard() {
+  const revenue=clients.reduce((s,c)=>s+c.paid,0);
+  const due=clients.reduce((s,c)=>s+Math.max(0,c.total-c.paid),0);
+  const totalExpenses=expenses.reduce((s,e)=>s+e.amount,0);
+  const totalProfit=clients.reduce((s,c)=>s+(c.profit||0),0)-totalExpenses;
+  document.getElementById('stat-clients').textContent=clients.length;
+  document.getElementById('stat-revenue').textContent=fmt(revenue);
+  document.getElementById('stat-due').textContent=fmt(due);
+  document.getElementById('stat-profit').textContent=fmt(totalProfit);
+  document.getElementById('stat-expenses').textContent=fmt(totalExpenses);
+  document.getElementById('stat-batches').textContent=batches.length;
+  document.getElementById('stat-paid').textContent=clients.filter(c=>c.status==='Paid').length;
+  document.getElementById('stat-travellers').textContent=clients.reduce((s,c)=>s+(c.travellers||1),0);
+  const wrap=document.getElementById('dashRecentWrap');
+  const recent=clients.slice(0,6);
+  if (!recent.length) { wrap.innerHTML=`<div class="empty-state"><div class="icon">✈</div><p>No clients yet.</p><button class="btn btn-gold" onclick="showView('clients');openModal()">Add First Client</button></div>`; return; }
+  wrap.innerHTML=`<div class="table-scroll"><table><thead><tr><th>Client</th><th>Batch</th><th>Travel Date</th><th>Total</th><th>Paid</th><th>Profit</th><th>Status</th><th></th></tr></thead>
+    <tbody>${recent.map(c=>{
+      const badge=c.status==='Paid'?'badge-paid':c.status==='Partial'?'badge-partial':c.status==='Installment'?'badge-installment':'badge-unpaid';
+      const dep=c.departure?new Date(c.departure).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'—';
+      const bname=getBatchName(c.batchId);
+      return `<tr><td><div class="client-name">${c.name}</div><div class="client-email">${c.email}</div></td><td>${bname?`<span style="color:var(--purple);font-size:0.76rem;">${bname}</span>`:'<span style="color:var(--muted);font-size:0.72rem;">—</span>'}</td><td>${dep}</td><td><span class="amount total">${fmt(c.total)}</span></td><td><span class="amount paid">${fmt(c.paid)}</span></td><td style="color:${(c.profit||0)>=0?'var(--green)':'var(--red)'};font-family:'DM Mono',monospace;font-size:0.81rem;">${fmt(c.profit||0)}</td><td><span class="badge ${badge}">${c.status}</span></td><td><button class="btn btn-outline btn-sm" onclick="showDetail('${c._id}')">View</button></td></tr>`;
+    }).join('')}</tbody></table></div>`;
+}
+
+// ====== REPORTS ======
+function renderReports() {
+  const totalRevenue=clients.reduce((s,c)=>s+c.paid,0); const totalDue=clients.reduce((s,c)=>s+Math.max(0,c.total-c.paid),0);
+  const totalCost=clients.reduce((s,c)=>s+c.total,0); const totalProfit=clients.reduce((s,c)=>s+(c.profit||0),0);
+  const totalExpenses=expenses.reduce((s,e)=>s+e.amount,0); const netProfit=totalProfit-totalExpenses;
+  const margin=totalCost>0?((totalProfit/totalCost)*100).toFixed(1):'0';
+  const statusCounts={Paid:0,Partial:0,Installment:0,Unpaid:0};
+  clients.forEach(c=>statusCounts[c.status]=(statusCounts[c.status]||0)+1);
+  const pkgTotals={};
+  clients.forEach(c=>{const p=c.package||'Standard';pkgTotals[p]=(pkgTotals[p]||0)+1;});
+  document.getElementById('reportCards').innerHTML=`
+    <div class="report-card"><h3>💰 P&L Summary</h3>
+      <div style="margin-bottom:0.6rem;"><div class="stat-label">Portfolio Value</div><div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--accent);">${fmt(totalCost)}</div></div>
+      <div style="margin-bottom:0.6rem;"><div class="stat-label">Revenue Collected</div><div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--green);">${fmt(totalRevenue)}</div></div>
+      <div style="margin-bottom:0.6rem;"><div class="stat-label">Gross Profit</div><div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--accent2);">${fmt(totalProfit)}</div></div>
+      <div style="margin-bottom:0.6rem;"><div class="stat-label">Agency Expenses</div><div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--red);">${fmt(totalExpenses)}</div></div>
+      <div style="padding-top:0.6rem;border-top:1px solid var(--border);"><div class="stat-label">Net Profit</div><div style="font-family:'Playfair Display',serif;font-size:1.5rem;color:${netProfit>=0?'var(--green)':'var(--red)'};">${fmt(netProfit)}</div></div>
+      <div style="margin-top:0.35rem;font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--muted);">Margin: ${margin}%</div>
+    </div>
+    <div class="report-card"><h3>📊 Payment Status</h3>
+      ${Object.entries(statusCounts).map(([s,n])=>{const col=s==='Paid'?'var(--green)':s==='Partial'?'var(--accent)':s==='Installment'?'var(--purple)':'var(--red)';const pct=clients.length>0?(n/clients.length*100).toFixed(0):0;return `<div class="chart-bar-row"><div class="chart-bar-label">${s}</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:${pct}%;background:${col}"></div></div><div class="chart-bar-val">${n} (${pct}%)</div></div>`;}).join('')}
+      <div style="margin-top:0.65rem;padding-top:0.65rem;border-top:1px solid var(--border);"><div class="stat-label">Outstanding Balance</div><div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--red);">${fmt(totalDue)}</div></div>
+    </div>
+    <div class="report-card"><h3>🎒 Package Distribution</h3>
+      ${Object.keys(pkgTotals).length?Object.entries(pkgTotals).map(([p,n])=>{const pct=clients.length>0?(n/clients.length*100).toFixed(0):0;return`<div class="chart-bar-row"><div class="chart-bar-label">${p}</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:${pct}%;background:var(--blue)"></div></div><div class="chart-bar-val">${n} (${pct}%)</div></div>`;}).join(''):'<p style="color:var(--muted);font-size:0.8rem;">No data yet.</p>'}
+    </div>
+  `;
+  const ck=['flight','hotel','monuments','transport','gifts','events','meals','insurance','visa','other'];
+  const cl=['✈ Flight','🏨 Hotel','🏛 Monuments','🚌 Transport','🎁 Gifts','🎟 Events','🍽 Meals','🛡 Insurance','🧳 Visa','📋 Other'];
+  const cc=['#1a5fa8','#6b3fa0','#c47c10','#1a7a4a','#c0392b','#c0386e','#d4541e','#0d8a74','#c47c10','#7a7468'];
+  const ct=ck.map(k=>clients.reduce((s,c)=>s+(c.costs?.[k]||0)*(c.travellers||1),0));
+  const mx=Math.max(...ct,1);
+  document.getElementById('categoryBreakdown').innerHTML=`<div style="margin-bottom:0.65rem;font-family:'DM Mono',monospace;font-size:0.64rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;">Total across all clients per category</div>${ck.map((k,i)=>`<div class="chart-bar-row" style="margin-bottom:0.75rem;"><div class="chart-bar-label">${cl[i]}</div><div class="chart-bar-track" style="height:9px;"><div class="chart-bar-fill" style="width:${ct[i]/mx*100}%;background:${cc[i]}"></div></div><div class="chart-bar-val">${fmt(ct[i])}</div></div>`).join('')}`;
+  if (!batches.length) { document.getElementById('batchProfitReport').innerHTML='<p style="color:var(--muted);font-size:0.83rem;">No batches created yet.</p>'; }
+  else {
+    document.getElementById('batchProfitReport').innerHTML=`<div class="table-scroll"><table><thead><tr><th>Batch</th><th>Month</th><th>Clients</th><th>Pax</th><th>Revenue</th><th>Gross Profit</th><th>Expenses</th><th>Net Profit</th><th>Due</th></tr></thead>
+      <tbody>${batches.map(b=>{const bc=clients.filter(c=>c.batchId===b._id);const rev=bc.reduce((s,c)=>s+c.paid,0);const gp=bc.reduce((s,c)=>s+(c.profit||0),0);const bexp=expenses.filter(e=>e.batchId===b._id).reduce((s,e)=>s+e.amount,0);const np=gp-bexp;const bd=bc.reduce((s,c)=>s+Math.max(0,c.total-c.paid),0);const tr=bc.reduce((s,c)=>s+(c.travellers||1),0);
+        return`<tr><td><span class="client-name">${b.name}</span></td><td><span class="batch-chip" style="background:rgba(107,63,160,0.1);color:var(--purple);">${b.month.toUpperCase()}</span></td><td style="text-align:center;">${bc.length}/${b.capacity}</td><td style="text-align:center;">${tr}</td><td><span class="amount paid">${fmt(rev)}</span></td><td><span class="amount profit">${fmt(gp)}</span></td><td><span class="amount due">${fmt(bexp)}</span></td><td style="color:${np>=0?'var(--green)':'var(--red)'};font-family:'DM Mono',monospace;font-size:0.83rem;font-weight:500;">${fmt(np)}</td><td><span class="amount due">${bd>0?fmt(bd):'—'}</span></td></tr>`;
+      }).join('')}</tbody></table></div>`;
+  }
+}
+
+// ====== TOAST ======
+function showToast(msg, type = 'success') {
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = (type === 'success' ? '✓ ' : '✗ ') + msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+// ====== INIT ======
+loadAll();
+</script>
+</body>
+</html>
