@@ -159,7 +159,12 @@ app.delete('/api/expenses/:id', async (req, res) => {
     res.json({ success: true });
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
-
+app.get("/", (req, res) => {
+  res.json({
+    status: "ok",
+    message: "VoyageFinance API is live 🚀"
+  });
+});
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
