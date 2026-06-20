@@ -19,6 +19,11 @@
   --red: #c0392b;
   --blue: #1a5fa8;
   --purple: #6b3fa0;
+  --pink: #c0386e;
+  --indigo: #3730a3;
+  --sky: #0369a1;
+  --orange: #c2410c;
+  --yellow: #b45309;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; font-size: 14px; }
@@ -47,11 +52,9 @@ nav button.active { color: var(--accent); background: rgba(184,98,26,0.09); }
 .view { display: none; }
 .view.active { display: block; }
 
-/* HERO */
 .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem; }
 .page-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--text); }
 
-/* STATS */
 .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem; margin-bottom: 1.5rem; }
 .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.1rem; transition: border-color 0.2s; }
 .stat-card:hover { border-color: var(--accent); }
@@ -64,10 +67,8 @@ nav button.active { color: var(--accent); background: rgba(184,98,26,0.09); }
 .stat-value.purple { color: var(--purple); }
 .stat-sub { font-size: 0.67rem; color: var(--muted); margin-top: 2px; }
 
-/* SECTION */
 .section-title { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
 
-/* TABLE */
 .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 1.5rem; }
 .table-toolbar { display: flex; align-items: center; gap: 0.6rem; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
 .search-box { flex: 1; min-width: 150px; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 0.38rem 0.7rem; color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.8rem; outline: none; transition: border-color 0.2s; }
@@ -93,7 +94,6 @@ tr:hover td { background: rgba(0,0,0,0.012); }
 .amount.paid { color: var(--green); }
 .amount.due { color: var(--red); }
 
-/* BUTTONS */
 .btn { padding: 0.38rem 0.85rem; border-radius: 6px; border: none; font-family: 'Inter', sans-serif; font-size: 0.76rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
 .btn-gold { background: var(--accent); color: #fff; }
 .btn-gold:hover { background: #9e5216; }
@@ -101,16 +101,16 @@ tr:hover td { background: rgba(0,0,0,0.012); }
 .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
 .btn-danger { background: rgba(192,57,43,0.07); color: var(--red); border: 1px solid rgba(192,57,43,0.18); }
 .btn-danger:hover { background: rgba(192,57,43,0.14); }
+.btn-teal { background: var(--accent2); color: #fff; }
+.btn-teal:hover { background: #0a7262; }
 .btn-sm { padding: 0.2rem 0.5rem; font-size: 0.69rem; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .action-btns { display: flex; gap: 0.25rem; }
 
-/* SPINNER */
 .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .loading-row { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.83rem; }
 
-/* MODAL */
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(2px); z-index: 200; align-items: flex-start; justify-content: center; padding: 1rem; overflow-y: auto; }
 .modal-overlay.open { display: flex; }
 .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; width: 100%; max-width: 720px; animation: slideUp 0.18s ease; margin: auto; box-shadow: 0 8px 36px rgba(0,0,0,0.12); }
@@ -122,7 +122,6 @@ tr:hover td { background: rgba(0,0,0,0.012); }
 .modal-body { padding: 1.1rem 1.4rem; max-height: 78vh; overflow-y: auto; }
 .modal-footer { padding: 0.8rem 1.4rem 1.1rem; display: flex; gap: 0.55rem; justify-content: flex-end; border-top: 1px solid var(--border); }
 
-/* FORM */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 .form-group { display: flex; flex-direction: column; gap: 0.28rem; }
 .form-group.full { grid-column: 1 / -1; }
@@ -131,42 +130,35 @@ input, select, textarea { background: var(--surface2); border: 1px solid var(--b
 input:focus, select:focus, textarea:focus { border-color: var(--accent); }
 input::placeholder, textarea::placeholder { color: var(--muted); }
 
-/* MODAL TABS */
 .modal-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 1rem; overflow-x: auto; }
 .modal-tab { background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; padding: 0.5rem 0.9rem; cursor: pointer; transition: all 0.15s; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: -1px; white-space: nowrap; }
 .modal-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
-/* PAYMENT BANNER */
 .pay-banner { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.65rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 9px; padding: 0.9rem 1rem; margin-bottom: 1rem; }
 .pay-banner-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); font-weight: 600; margin-bottom: 0.2rem; }
 .pay-banner-value { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; }
 
-/* COST SECTION */
 .cost-section { background: var(--surface2); border: 1px solid var(--border); border-radius: 9px; padding: 1rem; }
 .cost-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
 .cost-total-row { display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
 .cost-total-label { font-size: 0.72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
 .cost-total-value { font-family: 'DM Mono', monospace; font-size: 1.05rem; font-weight: 500; color: var(--accent); }
 
-/* INSTALLMENTS */
 .install-row { display: grid; grid-template-columns: 28px 1fr 1fr 95px; gap: 0.35rem; align-items: center; padding: 0.4rem 0; border-bottom: 1px solid var(--border); }
 .install-row:last-child { border-bottom: none; }
 
-/* PROFIT BOX */
 .profit-box { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.7rem; margin-top: 0.85rem; }
 .profit-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem; }
 .profit-item-label { font-size: 0.6rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; margin-bottom: 0.25rem; }
 .profit-item-value { font-family: 'DM Mono', monospace; font-size: 0.95rem; font-weight: 500; }
 
-/* FILTER PILLS */
 .tab-pills { display: flex; gap: 0.35rem; margin-bottom: 1rem; flex-wrap: wrap; }
 .tab-pill { background: var(--surface); border: 1px solid var(--border); color: var(--muted); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.25rem 0.65rem; border-radius: 100px; cursor: pointer; transition: all 0.15s; font-weight: 600; }
 .tab-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 .tab-pill:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
 
-/* BATCHES */
 .batch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.85rem; margin-bottom: 1.5rem; }
 .batch-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; cursor: pointer; transition: all 0.18s; position: relative; overflow: hidden; }
 .batch-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
@@ -182,7 +174,6 @@ input::placeholder, textarea::placeholder { color: var(--muted); }
 .batch-stat-label { font-size: 0.58rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
 .batch-stat-val { font-family: 'DM Mono', monospace; font-size: 0.82rem; font-weight: 500; margin-top: 1px; }
 
-/* DETAIL MODAL */
 .detail-hero { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem; margin-bottom: 1rem; }
 .detail-name { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 900; color: var(--accent); margin-bottom: 0.15rem; }
 .detail-meta { color: var(--muted); font-size: 0.77rem; }
@@ -198,7 +189,6 @@ input::placeholder, textarea::placeholder { color: var(--muted); }
 .install-detail td { padding: 0.5rem 0.65rem; font-size: 0.79rem; border-bottom: 1px solid var(--border); }
 .install-detail tr:last-child td { border-bottom: none; }
 
-/* REPORTS */
 .report-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0.85rem; margin-bottom: 1.5rem; }
 .report-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem; }
 .report-card h3 { font-family: 'Playfair Display', serif; font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 0.85rem; }
@@ -208,10 +198,8 @@ input::placeholder, textarea::placeholder { color: var(--muted); }
 .chart-bar-fill { height: 100%; border-radius: 100px; }
 .chart-bar-val { font-family: 'DM Mono', monospace; font-size: 0.69rem; color: var(--text); width: 70px; text-align: right; }
 
-/* EXPENSE STATS */
 #expenseStats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem; }
 
-/* GROUP EXPENSE INLINE */
 .group-expense-section { background: var(--surface2); border: 1px solid var(--border); border-radius: 9px; padding: 1rem; margin-top: 0.85rem; }
 .group-expense-section-title { font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent2); font-weight: 700; margin-bottom: 0.75rem; }
 .group-exp-item { display: flex; justify-content: space-between; align-items: center; padding: 0.45rem 0; border-bottom: 1px solid var(--border); font-size: 0.78rem; }
@@ -228,6 +216,69 @@ input::placeholder, textarea::placeholder { color: var(--muted); }
 
 select { cursor: pointer; }
 
+/* ===== EXPENSE PAGE — NEW STYLES ===== */
+.exp-page-layout { display: grid; grid-template-columns: 220px 1fr; gap: 1.25rem; align-items: start; }
+.exp-sidebar { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; position: sticky; top: 72px; }
+.exp-sidebar-header { padding: 0.75rem 1rem; background: var(--surface2); border-bottom: 1px solid var(--border); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); font-weight: 700; }
+.exp-cat-item { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 1rem; cursor: pointer; border-bottom: 1px solid var(--border); transition: all 0.15s; font-size: 0.8rem; }
+.exp-cat-item:last-child { border-bottom: none; }
+.exp-cat-item:hover { background: var(--surface2); }
+.exp-cat-item.active { background: rgba(184,98,26,0.07); color: var(--accent); font-weight: 600; }
+.exp-cat-item .cat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.exp-cat-item .cat-label { flex: 1; margin-left: 0.5rem; }
+.exp-cat-item .cat-amt { font-family: 'DM Mono', monospace; font-size: 0.69rem; color: var(--muted); }
+
+.exp-main { min-width: 0; }
+.exp-subcats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.65rem; margin-bottom: 1.25rem; }
+.exp-subcat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 0.85rem 1rem; cursor: pointer; transition: all 0.15s; position: relative; overflow: hidden; }
+.exp-subcat-card:hover { border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,0.06); }
+.exp-subcat-card .sc-icon { font-size: 1.2rem; margin-bottom: 0.3rem; }
+.exp-subcat-card .sc-name { font-size: 0.72rem; font-weight: 600; color: var(--text); margin-bottom: 0.15rem; }
+.exp-subcat-card .sc-amt { font-family: 'DM Mono', monospace; font-size: 0.88rem; font-weight: 500; }
+.exp-subcat-card .sc-count { font-size: 0.62rem; color: var(--muted); margin-top: 0.1rem; }
+.exp-subcat-card .sc-bar { position: absolute; bottom: 0; left: 0; height: 3px; border-radius: 0 0 9px 9px; transition: width 0.4s ease; }
+
+/* inline editable table */
+.excel-table { width: 100%; border-collapse: collapse; min-width: 700px; }
+.excel-table th { font-size: 0.6rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); padding: 0.5rem 0.7rem; text-align: left; border-bottom: 1px solid var(--border); background: var(--surface2); white-space: nowrap; font-weight: 600; }
+.excel-table td { padding: 0.4rem 0.5rem; font-size: 0.8rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.excel-table tr:last-child td { border-bottom: none; }
+.excel-table tr:hover td { background: rgba(184,98,26,0.03); }
+.cell-input { background: transparent; border: 1px solid transparent; border-radius: 4px; padding: 0.25rem 0.4rem; width: 100%; font-size: 0.79rem; font-family: 'Inter', sans-serif; color: var(--text); transition: all 0.15s; }
+.cell-input:focus { background: var(--surface); border-color: var(--accent); outline: none; box-shadow: 0 0 0 2px rgba(184,98,26,0.1); }
+.cell-input.mono { font-family: 'DM Mono', monospace; }
+.add-row-btn { display: flex; align-items: center; gap: 0.45rem; padding: 0.55rem 1rem; color: var(--accent2); font-size: 0.76rem; font-weight: 600; cursor: pointer; border-top: 1px solid var(--border); transition: background 0.15s; }
+.add-row-btn:hover { background: rgba(13,138,116,0.05); }
+
+/* marketing breakdown special */
+.marketing-breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.6rem; margin-bottom: 1rem; }
+.mkt-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem; }
+.mkt-card-icon { font-size: 1.1rem; margin-bottom: 0.25rem; }
+.mkt-card-name { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.2rem; }
+.mkt-card-val { font-family: 'DM Mono', monospace; font-size: 1rem; font-weight: 500; }
+
+/* expense modal enhanced */
+.exp-modal-subcat { display: none; }
+.exp-modal-subcat.visible { display: block; }
+.subcat-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem; }
+.subcat-chip { background: var(--surface2); border: 1px solid var(--border); border-radius: 100px; padding: 0.2rem 0.6rem; font-size: 0.69rem; cursor: pointer; transition: all 0.15s; font-weight: 600; }
+.subcat-chip:hover, .subcat-chip.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* category color map */
+.cat-Operacoes { color: var(--blue); background: rgba(26,95,168,0.08); }
+.cat-Marketing { color: var(--purple); background: rgba(107,63,160,0.08); }
+.cat-Funcionarios { color: var(--accent2); background: rgba(13,138,116,0.08); }
+.cat-Tecnologia { color: var(--sky); background: rgba(3,105,161,0.08); }
+.cat-Viagem { color: var(--accent); background: rgba(184,98,26,0.08); }
+.cat-Grupo { color: var(--red); background: rgba(192,57,43,0.08); }
+.cat-Vendas { color: var(--pink); background: rgba(192,56,110,0.08); }
+.cat-Outros { color: var(--muted); background: rgba(122,116,104,0.08); }
+.cat-Custom { color: var(--yellow); background: rgba(180,83,9,0.08); }
+
+@media (max-width: 900px) {
+  .exp-page-layout { grid-template-columns: 1fr; }
+  .exp-sidebar { position: static; }
+}
 @media (max-width: 640px) {
   header { height: auto; padding: 0.6rem 0.85rem; flex-wrap: wrap; }
   nav { overflow-x: auto; }
@@ -274,8 +325,6 @@ select { cursor: pointer; }
         <button class="modal-tab" onclick="switchTab('payment')">Pagamento</button>
         <button class="modal-tab" onclick="switchTab('profit')">Lucro</button>
       </div>
-
-      <!-- TAB INFO -->
       <div class="tab-content active" id="tab-info">
         <div class="form-grid">
           <div class="form-group"><label>Nome Completo *</label><input type="text" id="fName" placeholder="Ex: Carlos Mendes"></div>
@@ -291,8 +340,6 @@ select { cursor: pointer; }
           <div class="form-group full"><label>Observações</label><textarea id="fNotes" rows="2" placeholder="Restrições alimentares, pedidos especiais..."></textarea></div>
         </div>
       </div>
-
-      <!-- TAB COSTS -->
       <div class="tab-content" id="tab-costs">
         <div class="cost-section">
           <div style="font-size:0.63rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--accent2);font-weight:700;margin-bottom:0.75rem;">Detalhamento de Custos (R$ por pessoa)</div>
@@ -312,8 +359,6 @@ select { cursor: pointer; }
           <div class="cost-total-row" style="padding-top:0.3rem;margin-top:0;"><div class="cost-total-label" style="color:var(--accent)">Total Geral</div><div class="cost-total-value" id="grandTotal" style="font-size:1.2rem;">R$ 0</div></div>
         </div>
       </div>
-
-      <!-- TAB PAYMENT -->
       <div class="tab-content" id="tab-payment">
         <div class="pay-banner" id="payBanner">
           <div><div class="pay-banner-label">Total do Pacote</div><div class="pay-banner-value" id="bannerTotal" style="color:var(--accent);">R$ 0</div></div>
@@ -330,15 +375,11 @@ select { cursor: pointer; }
             <div class="form-group"><label>Data do 1º Pagamento</label><input type="date" id="fFirstPayDate" oninput="buildInstallmentRows()"></div>
           </div>
           <div style="font-size:0.62rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);font-weight:600;margin-bottom:0.4rem;">Cronograma de Parcelas</div>
-          <div style="font-size:0.62rem;display:grid;grid-template-columns:28px 1fr 1fr 95px;gap:0.35rem;color:var(--muted);padding-bottom:0.35rem;border-bottom:1px solid var(--border);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;">
-            <span>#</span><span>Vencimento</span><span>Valor (R$)</span><span>Status</span>
-          </div>
+          <div style="font-size:0.62rem;display:grid;grid-template-columns:28px 1fr 1fr 95px;gap:0.35rem;color:var(--muted);padding-bottom:0.35rem;border-bottom:1px solid var(--border);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;"><span>#</span><span>Vencimento</span><span>Valor (R$)</span><span>Status</span></div>
           <div id="installmentRows" style="max-height:240px;overflow-y:auto;"></div>
           <div class="cost-total-row" style="margin-top:0.55rem;"><div class="cost-total-label">Total Agendado</div><div class="cost-total-value" id="installTotal">R$ 0</div></div>
         </div>
       </div>
-
-      <!-- TAB PROFIT -->
       <div class="tab-content" id="tab-profit">
         <div class="form-grid">
           <div class="form-group"><label>Preço de Venda (R$) — por pessoa</label><input type="number" id="fSellingPrice" min="0" value="0" oninput="calcProfit()"></div>
@@ -388,21 +429,60 @@ select { cursor: pointer; }
   </div>
 </div>
 
-<!-- EXPENSE MODAL -->
+<!-- EXPENSE MODAL — ENHANCED -->
 <div class="modal-overlay" id="expenseModal">
-  <div class="modal" style="max-width:520px;">
+  <div class="modal" style="max-width:600px;">
     <div class="modal-header"><div class="modal-title">Adicionar Despesa</div><button class="modal-close" onclick="closeExpenseModal()">×</button></div>
     <div class="modal-body">
       <div class="form-grid">
-        <div class="form-group"><label>Descrição *</label><input type="text" id="eDesc" placeholder="Ex: Aluguel do escritório"></div>
-        <div class="form-group"><label>Categoria</label><select id="eCat"><option>Operações</option><option>Marketing</option><option>Funcionários</option><option>Tecnologia</option><option>Viagem</option><option>Grupo</option><option>Outros</option></select></div>
+        <div class="form-group"><label>Descrição *</label><input type="text" id="eDesc" placeholder="Ex: Campanha Google Ads – Índia"></div>
+        <div class="form-group">
+          <label>Categoria Principal</label>
+          <select id="eCat" onchange="updateSubcatChips()">
+            <option value="Operações">🏢 Operações</option>
+            <option value="Marketing">📣 Marketing</option>
+            <option value="Vendas">💼 Vendas</option>
+            <option value="Funcionários">👥 Funcionários</option>
+            <option value="Tecnologia">💻 Tecnologia</option>
+            <option value="Viagem">✈ Viagem</option>
+            <option value="Grupo">📦 Grupo</option>
+            <option value="Outros">📋 Outros</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- SUBCATEGORY CHIPS — changes by category -->
+      <div style="margin-top:0.75rem;padding:0.85rem;background:var(--surface2);border:1px solid var(--border);border-radius:8px;">
+        <div style="font-size:0.62rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);font-weight:700;margin-bottom:0.5rem;">Subcategoria <span style="font-weight:400;color:var(--muted)">(escolha uma)</span></div>
+        <div class="subcat-chips" id="subcatChips"></div>
+        <input type="hidden" id="eSubcat" value="">
+        <!-- Custom subcat -->
+        <div style="margin-top:0.6rem;display:flex;gap:0.5rem;align-items:center;">
+          <input type="text" id="eCustomSubcat" placeholder="Ou digite uma subcategoria personalizada…" style="flex:1;font-size:0.76rem;" oninput="handleCustomSubcat()">
+        </div>
+      </div>
+
+      <div class="form-grid" style="margin-top:0.75rem;">
         <div class="form-group"><label>Valor (R$) *</label><input type="number" id="eAmount" min="0" placeholder="0"></div>
         <div class="form-group"><label>Data</label><input type="date" id="eDate"></div>
         <div class="form-group"><label>Grupo Vinculado (opcional)</label><select id="eBatch"><option value="">— Nenhum —</option></select></div>
         <div class="form-group"><label>Nº Recibo / Ref.</label><input type="text" id="eRef" placeholder="REC-001"></div>
+        <div class="form-group"><label>Método de Pagamento</label>
+          <select id="ePayMethod">
+            <option value="">—</option>
+            <option>Cartão de Crédito</option>
+            <option>Débito</option>
+            <option>PIX</option>
+            <option>Transferência</option>
+            <option>Dinheiro</option>
+            <option>Boleto</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Fornecedor / Plataforma</label><input type="text" id="eVendor" placeholder="Ex: Google, Meta, Freelancer…"></div>
+        <div class="form-group full"><label>Notas Adicionais</label><textarea id="eNotes" rows="2" placeholder="Observações, link da campanha, ROI esperado…"></textarea></div>
       </div>
     </div>
-    <div class="modal-footer"><button class="btn btn-outline" onclick="closeExpenseModal()">Cancelar</button><button class="btn btn-gold" id="saveExpenseBtn" onclick="saveExpense()">Adicionar</button></div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeExpenseModal()">Cancelar</button><button class="btn btn-gold" id="saveExpenseBtn" onclick="saveExpense()">Adicionar Despesa</button></div>
   </div>
 </div>
 
@@ -466,23 +546,61 @@ select { cursor: pointer; }
   </div>
 </div>
 
-<!-- ===== EXPENSES ===== -->
+<!-- ===== EXPENSES — REDESIGNED ===== -->
 <div class="view container" id="view-expenses">
   <div class="page-header">
-    <div class="page-title">Despesas da Agência</div>
-    <button class="btn btn-gold" onclick="openExpenseModal()">+ Adicionar Despesa</button>
-  </div>
-  <div id="expenseStats"></div>
-  <div class="table-wrap">
-    <div class="table-toolbar">
-      <select id="expCatFilter" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:0.38rem 0.7rem;color:var(--text);font-size:0.8rem;outline:none;" onchange="renderExpenses()">
-        <option value="">Todas as Categorias</option>
-        <option>Operações</option><option>Marketing</option><option>Funcionários</option><option>Tecnologia</option><option>Viagem</option><option>Grupo</option><option>Outros</option>
-      </select>
-      <select id="expBatchFilter" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:0.38rem 0.7rem;color:var(--text);font-size:0.8rem;outline:none;" onchange="renderExpenses()"><option value="">Todos os Grupos</option></select>
-      <span id="expTotal" style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--muted);margin-left:auto;"></span>
+    <div>
+      <div class="page-title">💸 Despesas da Agência</div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:2px;">Controle detalhado por categoria · Edição inline como Excel</div>
     </div>
-    <div class="table-scroll" id="expenseTableWrap"><div class="loading-row"><div class="spinner"></div> Carregando…</div></div>
+    <div style="display:flex;gap:0.5rem;">
+      <button class="btn btn-outline" onclick="exportExpensesCSV()">⬇ Exportar CSV</button>
+      <button class="btn btn-gold" onclick="openExpenseModal()">+ Adicionar Despesa</button>
+    </div>
+  </div>
+
+  <!-- TOP STATS -->
+  <div id="expenseStats"></div>
+
+  <!-- MARKETING BREAKDOWN — shown when marketing cat selected or always -->
+  <div id="marketingSection" style="margin-bottom:1.25rem;display:none;">
+    <div class="section-title">📣 Detalhamento de Marketing</div>
+    <div class="marketing-breakdown" id="marketingBreakdown"></div>
+  </div>
+
+  <!-- MAIN LAYOUT: sidebar + table -->
+  <div class="exp-page-layout">
+    <!-- SIDEBAR -->
+    <div class="exp-sidebar">
+      <div class="exp-sidebar-header">Categorias</div>
+      <div id="expCatSidebar"></div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="exp-main">
+      <!-- Subcategory cards -->
+      <div id="expSubcatCards" style="margin-bottom:1.1rem;"></div>
+
+      <!-- Toolbar -->
+      <div class="table-wrap">
+        <div class="table-toolbar" style="flex-wrap:wrap;">
+          <input class="search-box" type="text" id="expSearch" placeholder="Buscar descrição, fornecedor, ref…" oninput="renderExpenseTable()" style="min-width:180px;">
+          <select id="expBatchFilter" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:0.38rem 0.7rem;color:var(--text);font-size:0.8rem;outline:none;" onchange="renderExpenseTable()"><option value="">Todos os Grupos</option></select>
+          <select id="expMonthFilter" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:0.38rem 0.7rem;color:var(--text);font-size:0.8rem;outline:none;" onchange="renderExpenseTable()">
+            <option value="">Todos os Meses</option>
+            <option value="0">Janeiro</option><option value="1">Fevereiro</option><option value="2">Março</option>
+            <option value="3">Abril</option><option value="4">Maio</option><option value="5">Junho</option>
+            <option value="6">Julho</option><option value="7">Agosto</option><option value="8">Setembro</option>
+            <option value="9">Outubro</option><option value="10">Novembro</option><option value="11">Dezembro</option>
+          </select>
+          <span id="expTableTotal" style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--muted);margin-left:auto;white-space:nowrap;"></span>
+        </div>
+        <div class="table-scroll" id="expenseTableWrap"><div class="loading-row"><div class="spinner"></div> Carregando…</div></div>
+        <div class="add-row-btn" onclick="openExpenseModal()">
+          <span style="font-size:1rem;">＋</span> Adicionar nova linha de despesa
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -493,37 +611,103 @@ select { cursor: pointer; }
   <div class="section-title">Receita por Categoria de Custo</div>
   <div class="table-wrap" style="padding:1.1rem;margin-bottom:1.5rem;" id="categoryBreakdown"></div>
   <div class="section-title">Lucro por Grupo</div>
-  <div class="table-wrap" style="padding:1.1rem;" id="batchProfitReport"></div>
+  <div class="table-wrap" style="padding:1.1rem;margin-bottom:1.5rem;" id="batchProfitReport"></div>
+  <div class="section-title">Despesas por Categoria</div>
+  <div class="table-wrap" style="padding:1.1rem;" id="expenseCatReport"></div>
 </div>
 
 <script>
 const API = "https://voyage-finance-api.onrender.com/api";
-
 let clients = [], batches = [], expenses = [];
 let editingId = null, editingBatchId = null, currentFilter = 'All';
+let activeCatFilter = 'Todas';
 
-// FORMAT R$
+// ===== CATEGORY CONFIG =====
+const CATEGORIES = {
+  'Todas':       { icon: '📊', color: '#7a7468', subcats: [] },
+  'Marketing':   { icon: '📣', color: '#6b3fa0', subcats: [
+    { key: 'google_ads',    label: 'Google Ads',       icon: '🔵' },
+    { key: 'meta_ads',      label: 'Meta Ads',         icon: '🟣' },
+    { key: 'facebook_ads',  label: 'Facebook Ads',     icon: '📘' },
+    { key: 'instagram_ads', label: 'Instagram Ads',    icon: '📸' },
+    { key: 'tiktok_ads',    label: 'TikTok Ads',       icon: '🎵' },
+    { key: 'youtube_ads',   label: 'YouTube Ads',      icon: '▶️' },
+    { key: 'influencer',    label: 'Influencer',       icon: '⭐' },
+    { key: 'email_mkt',     label: 'E-mail Mkt',       icon: '📧' },
+    { key: 'seo',           label: 'SEO / Blog',       icon: '🔍' },
+    { key: 'design',        label: 'Design / Criativo', icon: '🎨' },
+    { key: 'outros_mkt',    label: 'Outros Mkt',       icon: '📣' },
+  ]},
+  'Vendas':      { icon: '💼', color: '#c0386e', subcats: [
+    { key: 'comissao',      label: 'Comissão Vendedor', icon: '💰' },
+    { key: 'crm',           label: 'CRM / Plataforma',  icon: '🗂' },
+    { key: 'treinamento',   label: 'Treinamento Vendas', icon: '🎓' },
+    { key: 'material',      label: 'Material de Vendas', icon: '📄' },
+    { key: 'feiras',        label: 'Feiras / Eventos',  icon: '🏛' },
+    { key: 'outros_vdas',   label: 'Outros Vendas',     icon: '💼' },
+  ]},
+  'Operações':   { icon: '🏢', color: '#1a5fa8', subcats: [
+    { key: 'aluguel',       label: 'Aluguel Escritório', icon: '🏢' },
+    { key: 'internet',      label: 'Internet / Tel.',    icon: '📡' },
+    { key: 'utilities',     label: 'Energia / Água',    icon: '💡' },
+    { key: 'material_esc',  label: 'Material Escritório', icon: '📦' },
+    { key: 'contabilidade', label: 'Contabilidade',     icon: '📊' },
+    { key: 'juridico',      label: 'Jurídico',          icon: '⚖️' },
+    { key: 'outros_op',     label: 'Outros Op.',        icon: '🏢' },
+  ]},
+  'Funcionários':{ icon: '👥', color: '#0d8a74', subcats: [
+    { key: 'salario',       label: 'Salários',          icon: '💵' },
+    { key: 'beneficios',    label: 'Benefícios',        icon: '🎁' },
+    { key: 'freelancer',    label: 'Freelancer',        icon: '🧑‍💻' },
+    { key: 'trein_rh',      label: 'Treinamento RH',    icon: '📚' },
+    { key: 'outros_rh',     label: 'Outros RH',         icon: '👥' },
+  ]},
+  'Tecnologia':  { icon: '💻', color: '#0369a1', subcats: [
+    { key: 'software',      label: 'Software / SaaS',   icon: '🖥' },
+    { key: 'hosting',       label: 'Hospedagem',        icon: '☁️' },
+    { key: 'hardware',      label: 'Hardware',          icon: '🖨' },
+    { key: 'seguranca',     label: 'Segurança TI',      icon: '🔒' },
+    { key: 'outros_ti',     label: 'Outros TI',         icon: '💻' },
+  ]},
+  'Viagem':      { icon: '✈', color: '#b8621a', subcats: [
+    { key: 'passagem',      label: 'Passagens',         icon: '✈️' },
+    { key: 'hotel_op',      label: 'Hotel (equipe)',    icon: '🏨' },
+    { key: 'translado',     label: 'Translado',         icon: '🚌' },
+    { key: 'alimentacao',   label: 'Alimentação',       icon: '🍽' },
+    { key: 'outros_viag',   label: 'Outros Viagem',     icon: '🧳' },
+  ]},
+  'Grupo':       { icon: '📦', color: '#c0392b', subcats: [
+    { key: 'guia',          label: 'Guia Turístico',    icon: '🗺' },
+    { key: 'transfer_grp',  label: 'Transfer Grupo',    icon: '🚌' },
+    { key: 'seguro_grp',    label: 'Seguro Grupo',      icon: '🛡' },
+    { key: 'ingresso_grp',  label: 'Ingressos',         icon: '🎟' },
+    { key: 'outros_grp',    label: 'Outros Grupo',      icon: '📦' },
+  ]},
+  'Outros':      { icon: '📋', color: '#7a7468', subcats: [
+    { key: 'imposto',       label: 'Impostos / Taxas',  icon: '📑' },
+    { key: 'banco',         label: 'Tarifas Bancárias', icon: '🏦' },
+    { key: 'multa',         label: 'Multas',            icon: '⚠️' },
+    { key: 'outros_div',    label: 'Diversos',          icon: '📋' },
+  ]},
+};
+
 function fmt(n) {
   return 'R$ ' + Number(n || 0).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 }
-
 function setDbStatus(state, text) {
   const el = document.getElementById('dbStatus');
-  const dot = el.querySelector('.db-dot');
   el.className = 'db-status ' + state;
-  dot.className = 'db-dot' + (state === 'connected' ? ' pulse' : '');
+  el.querySelector('.db-dot').className = 'db-dot' + (state === 'connected' ? ' pulse' : '');
   document.getElementById('dbStatusText').textContent = text;
 }
-
 function setBtn(id, loading, text) {
   const btn = document.getElementById(id); if (!btn) return;
   btn.disabled = loading;
   btn.innerHTML = loading ? `<span class="spinner" style="width:11px;height:11px;"></span> Salvando…` : text;
 }
-
 async function apiFetch(path, opts = {}) {
   const res = await fetch(API + path, { headers: { 'Content-Type': 'application/json' }, ...opts });
-  if (!res.ok) { const e = await res.json().catch(() => ({ error: 'Erro no servidor' })); throw new Error(e.error || 'Falha na requisição'); }
+  if (!res.ok) { const e = await res.json().catch(() => ({ error: 'Erro no servidor' })); throw new Error(e.error || 'Falha'); }
   return res.json();
 }
 
@@ -539,7 +723,6 @@ async function loadAll() {
   }
 }
 
-// ===== VIEWS =====
 function showView(v) {
   document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
   document.getElementById('view-' + v).classList.add('active');
@@ -548,7 +731,7 @@ function showView(v) {
   if (v === 'dashboard') renderDashboard();
   if (v === 'clients') { populateBatchFilters(); renderClients(); }
   if (v === 'batches') renderBatches();
-  if (v === 'expenses') { populateExpenseBatchFilters(); renderExpenses(); renderExpenseStats(); }
+  if (v === 'expenses') { populateExpenseBatchFilters(); renderExpensePage(); }
   if (v === 'reports') renderReports();
 }
 
@@ -560,7 +743,6 @@ function switchTab(tab) {
   document.querySelectorAll('.modal-tab').forEach(t => { if (t.getAttribute('onclick')?.includes("'" + tab + "'")) t.classList.add('active'); });
   if (tab === 'payment') updatePayBanner();
 }
-
 function updatePayBanner() {
   const total = calcTotalVal();
   let paid = 0;
@@ -582,7 +764,7 @@ function updatePayBanner() {
   document.getElementById('bannerDue').style.color = due > 0 ? 'var(--red)' : 'var(--green)';
 }
 
-// ===== MODAL =====
+// ===== CLIENT MODAL =====
 function openModal(id) {
   editingId = id || null;
   populateBatchSelect();
@@ -636,8 +818,7 @@ function openModal(id) {
     document.getElementById('fReturn').value = '';
     togglePaymentType();
   }
-  calcTotal(); calcProfit();
-  switchTab('info');
+  calcTotal(); calcProfit(); switchTab('info');
   document.getElementById('clientModal').classList.add('open');
 }
 function closeModal() { document.getElementById('clientModal').classList.remove('open'); editingId = null; }
@@ -647,17 +828,13 @@ function populateBatchSelect() {
   sel.innerHTML = '<option value="">— Sem Grupo —</option>';
   batches.forEach(b => sel.innerHTML += `<option value="${b._id}">${b.name}</option>`);
 }
-
 function populateBatchFilters() {
-  ['batchFilter'].forEach(id => {
-    const sel = document.getElementById(id); if (!sel) return;
-    const cur = sel.value;
-    sel.innerHTML = '<option value="">Todos os Grupos</option>';
-    batches.forEach(b => sel.innerHTML += `<option value="${b._id}">${b.name}</option>`);
-    sel.value = cur;
-  });
+  const sel = document.getElementById('batchFilter'); if (!sel) return;
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">Todos os Grupos</option>';
+  batches.forEach(b => sel.innerHTML += `<option value="${b._id}">${b.name}</option>`);
+  sel.value = cur;
 }
-
 function togglePaymentType() {
   const t = document.getElementById('fPaymentType').value;
   document.getElementById('fullPaymentGroup').style.display = t === 'full' ? '' : 'none';
@@ -665,7 +842,6 @@ function togglePaymentType() {
   if (t === 'installment') buildInstallmentRows();
   updatePayBanner();
 }
-
 function buildInstallmentRows() {
   const count = parseInt(document.getElementById('fInstallCount').value) || 3;
   const grandTotal = calcTotalVal();
@@ -689,7 +865,6 @@ function buildInstallmentRows() {
   document.getElementById('installmentRows').innerHTML = html;
   updateInstallTotal();
 }
-
 function renderSavedInstallments(installments) {
   let html = '';
   installments.forEach((inst, i) => {
@@ -708,7 +883,6 @@ function renderSavedInstallments(installments) {
   document.getElementById('fInstallCount').value = installments.length;
   updateInstallTotal();
 }
-
 function updateInstallTotal() {
   const count = parseInt(document.getElementById('fInstallCount').value) || 3;
   let total = 0;
@@ -716,7 +890,6 @@ function updateInstallTotal() {
   document.getElementById('installTotal').textContent = fmt(total);
   updatePayBanner();
 }
-
 function getInstallments() {
   const count = parseInt(document.getElementById('fInstallCount').value) || 3;
   const arr = [];
@@ -725,14 +898,11 @@ function getInstallments() {
   }
   return arr;
 }
-
 function calcTotalVal() {
   const t = parseInt(document.getElementById('fTravellers').value) || 1;
   const fields = ['cFlight','cHotel','cMonuments','cTransport','cGifts','cEvents','cMeals','cInsurance','cVisa','cOther'];
-  const pp = fields.reduce((s, f) => s + (parseFloat(document.getElementById(f).value) || 0), 0);
-  return pp * t;
+  return fields.reduce((s, f) => s + (parseFloat(document.getElementById(f).value) || 0), 0) * t;
 }
-
 function calcTotal() {
   const t = parseInt(document.getElementById('fTravellers').value) || 1;
   const fields = ['cFlight','cHotel','cMonuments','cTransport','cGifts','cEvents','cMeals','cInsurance','cVisa','cOther'];
@@ -741,39 +911,34 @@ function calcTotal() {
   document.getElementById('grandTotal').textContent = fmt(pp * t);
   calcProfit(); updatePayBanner();
 }
-
 function calcProfit() {
   const t = parseInt(document.getElementById('fTravellers').value) || 1;
   const sp = parseFloat(document.getElementById('fSellingPrice').value) || 0;
   const cp = parseFloat(document.getElementById('fCostPrice').value) || 0;
   const comm = parseFloat(document.getElementById('fCommission').value) || 0;
   const oi = parseFloat(document.getElementById('fOtherIncome').value) || 0;
-  const rev = sp * t; const cost = cp * t; const profit = (sp - cp) * t + comm + oi;
-  document.getElementById('pp-revenue').textContent = fmt(rev);
-  document.getElementById('pp-cost').textContent = fmt(cost);
+  const profit = (sp - cp) * t + comm + oi;
+  document.getElementById('pp-revenue').textContent = fmt(sp * t);
+  document.getElementById('pp-cost').textContent = fmt(cp * t);
   const pel = document.getElementById('pp-profit');
   pel.textContent = fmt(profit);
   pel.style.color = profit >= 0 ? 'var(--green)' : 'var(--red)';
 }
-
 function updatePaymentMode() {
   const s = document.getElementById('fStatus').value;
   if (s === 'Parcelado') document.getElementById('fPaymentType').value = 'installment';
   togglePaymentType();
 }
 
-// ===== SAVE CLIENT =====
 async function saveClient() {
   const name = document.getElementById('fName').value.trim();
   const email = document.getElementById('fEmail').value.trim();
   if (!name || !email) { alert('Nome e E-mail são obrigatórios.'); return; }
-
   const travellers = parseInt(document.getElementById('fTravellers').value) || 1;
   const ck = ['flight','hotel','monuments','transport','gifts','events','meals','insurance','visa','other'];
   const cf = ['cFlight','cHotel','cMonuments','cTransport','cGifts','cEvents','cMeals','cInsurance','cVisa','cOther'];
   const costs = {}; let pp = 0;
   ck.forEach((k, i) => { costs[k] = parseFloat(document.getElementById(cf[i]).value) || 0; pp += costs[k]; });
-
   const payType = document.getElementById('fPaymentType').value;
   let paid = 0, installments = [];
   if (payType === 'installment') {
@@ -782,34 +947,13 @@ async function saveClient() {
   } else {
     paid = parseFloat(document.getElementById('fPaid').value) || 0;
   }
-
   const total = pp * travellers;
-  let status;
-  if (payType === 'installment') status = 'Parcelado';
-  else if (paid >= total && total > 0) status = 'Pago';
-  else if (paid > 0) status = 'Parcial';
-  else status = 'Pendente';
-
+  let status = payType === 'installment' ? 'Parcelado' : paid >= total && total > 0 ? 'Pago' : paid > 0 ? 'Parcial' : 'Pendente';
   const sp = parseFloat(document.getElementById('fSellingPrice').value) || 0;
   const cp = parseFloat(document.getElementById('fCostPrice').value) || 0;
   const comm = parseFloat(document.getElementById('fCommission').value) || 0;
   const oi = parseFloat(document.getElementById('fOtherIncome').value) || 0;
-
-  const payload = {
-    name, email,
-    phone: document.getElementById('fPhone').value.trim(),
-    passport: document.getElementById('fPassport').value.trim(),
-    departure: document.getElementById('fDeparture').value,
-    returnDate: document.getElementById('fReturn').value,
-    travellers, package: document.getElementById('fPackage').value,
-    batchId: document.getElementById('fBatch').value,
-    status, paid, paymentType: payType, installments,
-    notes: document.getElementById('fNotes').value.trim(),
-    costs, totalPerPerson: pp, total,
-    sellingPrice: sp, costPrice: cp, commission: comm, otherIncome: oi,
-    profit: (sp - cp) * travellers + comm + oi
-  };
-
+  const payload = { name, email, phone: document.getElementById('fPhone').value.trim(), passport: document.getElementById('fPassport').value.trim(), departure: document.getElementById('fDeparture').value, returnDate: document.getElementById('fReturn').value, travellers, package: document.getElementById('fPackage').value, batchId: document.getElementById('fBatch').value, status, paid, paymentType: payType, installments, notes: document.getElementById('fNotes').value.trim(), costs, totalPerPerson: pp, total, sellingPrice: sp, costPrice: cp, commission: comm, otherIncome: oi, profit: (sp - cp) * travellers + comm + oi };
   setBtn('saveClientBtn', true, 'Salvar Cliente');
   try {
     if (editingId) {
@@ -824,9 +968,8 @@ async function saveClient() {
   } catch (e) { showToast('Erro: ' + e.message, 'error'); }
   finally { setBtn('saveClientBtn', false, 'Salvar Cliente'); }
 }
-
 async function deleteClient(id) {
-  if (!confirm('Excluir este cliente? Isso não pode ser desfeito.')) return;
+  if (!confirm('Excluir este cliente?')) return;
   try {
     await apiFetch('/clients/' + id, { method: 'DELETE' });
     clients = clients.filter(x => x._id !== id);
@@ -835,14 +978,12 @@ async function deleteClient(id) {
   } catch (e) { showToast('Erro: ' + e.message, 'error'); }
 }
 
-// ===== CLIENTS TABLE =====
 function filterClients(f, el) {
   currentFilter = f;
   document.querySelectorAll('.tab-pill').forEach(p => p.classList.remove('active'));
   el.classList.add('active');
   renderClients();
 }
-
 function renderClients() {
   const q = (document.getElementById('searchBox')?.value || '').toLowerCase();
   const bf = document.getElementById('batchFilter')?.value || '';
@@ -850,21 +991,17 @@ function renderClients() {
   if (currentFilter !== 'All') list = list.filter(c => c.status === currentFilter);
   if (bf) list = list.filter(c => c.batchId === bf);
   if (q) list = list.filter(c => c.name.toLowerCase().includes(q) || c.email.toLowerCase().includes(q) || (c.passport||'').toLowerCase().includes(q) || (getBatchName(c.batchId)||'').toLowerCase().includes(q));
-
   const wrap = document.getElementById('clientTableWrap');
   const ce = document.getElementById('clientCount');
   if (ce) ce.textContent = list.length + ' cliente(s)';
   if (!list.length) { wrap.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><p>Nenhum cliente encontrado.</p></div>`; return; }
-
-  wrap.innerHTML = `<table>
-    <thead><tr><th>Cliente</th><th>Grupo</th><th>Datas</th><th>Pax</th><th>Total</th><th>Pago</th><th>Saldo</th><th>Lucro</th><th>Status</th><th>Ações</th></tr></thead>
+  wrap.innerHTML = `<table><thead><tr><th>Cliente</th><th>Grupo</th><th>Datas</th><th>Pax</th><th>Total</th><th>Pago</th><th>Saldo</th><th>Lucro</th><th>Status</th><th>Ações</th></tr></thead>
     <tbody>${list.map(c => {
       const due = c.total - c.paid;
       const badge = c.status==='Pago'?'badge-pago':c.status==='Parcial'?'badge-parcial':c.status==='Parcelado'?'badge-parcelas':'badge-pendente';
       const dep = c.departure ? new Date(c.departure).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'2-digit'}) : '—';
       const ret = c.returnDate ? new Date(c.returnDate).toLocaleDateString('pt-BR',{day:'2-digit',month:'short'}) : '—';
       const bname = getBatchName(c.batchId);
-      const profitColor = (c.profit||0) >= 0 ? 'var(--green)' : 'var(--red)';
       return `<tr>
         <td><div class="client-name">${c.name}</div><div class="client-email">${c.email}</div>${c.passport?`<div class="client-email">🛂 ${c.passport}</div>`:''}</td>
         <td>${bname?`<span class="badge" style="background:rgba(107,63,160,0.1);color:var(--purple)">${bname}</span>`:'<span style="color:var(--muted);font-size:0.7rem;">—</span>'}</td>
@@ -873,7 +1010,7 @@ function renderClients() {
         <td><span class="amount total">${fmt(c.total)}</span></td>
         <td><span class="amount paid">${fmt(c.paid)}</span></td>
         <td><span class="amount due">${due>0?fmt(due):'<span style="color:var(--green)">✓</span>'}</span></td>
-        <td><span style="font-family:'DM Mono',monospace;font-size:0.79rem;color:${profitColor}">${fmt(c.profit||0)}</span></td>
+        <td><span style="font-family:'DM Mono',monospace;font-size:0.79rem;color:${(c.profit||0)>=0?'var(--green)':'var(--red)'}">${fmt(c.profit||0)}</span></td>
         <td><span class="badge ${badge}">${c.status}</span></td>
         <td><div class="action-btns">
           <button class="btn btn-outline btn-sm" onclick="showDetail('${c._id}')">Ver</button>
@@ -881,13 +1018,10 @@ function renderClients() {
           <button class="btn btn-danger btn-sm" onclick="deleteClient('${c._id}')">Excluir</button>
         </div></td>
       </tr>`;
-    }).join('')}</tbody>
-  </table>`;
+    }).join('')}</tbody></table>`;
 }
-
 function getBatchName(id) { return id ? (batches.find(b => b._id === id)?.name || '') : ''; }
 
-// ===== DETAIL MODAL =====
 function showDetail(id) {
   const c = clients.find(x => x._id === id); if (!c) return;
   const due = c.total - c.paid;
@@ -899,8 +1033,6 @@ function showDetail(id) {
   const catI = {flight:'✈',hotel:'🏨',monuments:'🏛',transport:'🚌',gifts:'🎁',events:'🎟',meals:'🍽',insurance:'🛡',visa:'🧳',other:'📋'};
   const catL = {flight:'Passagens',hotel:'Hospedagem',monuments:'Monumentos',transport:'Transporte',gifts:'Presentes',events:'Shows',meals:'Alimentação',insurance:'Seguro',visa:'Visto',other:'Outros'};
   const bname = getBatchName(c.batchId);
-
-  // Installments section
   let installHtml = '';
   if (c.paymentType === 'installment' && c.installments?.length) {
     const instPaid = c.installments.filter(x => x.status === 'pago').reduce((s, x) => s + x.amount, 0);
@@ -910,33 +1042,27 @@ function showDetail(id) {
       <table class="install-detail"><thead><tr><th>#</th><th>Vencimento</th><th>Valor</th><th>Status</th></tr></thead>
       <tbody>${c.installments.map((inst, i) => {
         const sc = inst.status==='pago'?'var(--green)':inst.status==='atrasado'?'var(--red)':'var(--muted)';
-        const statusLabel = inst.status==='pago'?'Pago':inst.status==='atrasado'?'Atrasado':'Pendente';
-        return `<tr><td style="color:var(--muted);font-family:'DM Mono',monospace;">${i+1}</td><td>${inst.date?new Date(inst.date).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}):'—'}</td><td class="amount">${fmt(inst.amount)}</td><td style="color:${sc};font-family:'DM Mono',monospace;font-size:0.73rem;">${statusLabel}</td></tr>`;
+        return `<tr><td style="color:var(--muted);font-family:'DM Mono',monospace;">${i+1}</td><td>${inst.date?new Date(inst.date).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}):'—'}</td><td class="amount">${fmt(inst.amount)}</td><td style="color:${sc};font-family:'DM Mono',monospace;font-size:0.73rem;">${inst.status==='pago'?'Pago':inst.status==='atrasado'?'Atrasado':'Pendente'}</td></tr>`;
       }).join('')}</tbody></table>
       <div style="display:flex;gap:2rem;margin-top:0.6rem;padding-top:0.6rem;border-top:1px solid var(--border);">
-        <div><div style="font-size:0.62rem;color:var(--muted);font-weight:600;text-transform:uppercase;">Pago</div><div style="color:var(--green);font-family:'DM Mono',monospace;font-weight:500;">${fmt(instPaid)}</div></div>
-        <div><div style="font-size:0.62rem;color:var(--muted);font-weight:600;text-transform:uppercase;">Pendente</div><div style="color:var(--accent);font-family:'DM Mono',monospace;font-weight:500;">${fmt(instPending)}</div></div>
+        <div><div style="font-size:0.62rem;color:var(--muted);font-weight:600;text-transform:uppercase;">Pago</div><div style="color:var(--green);font-family:'DM Mono',monospace;">${fmt(instPaid)}</div></div>
+        <div><div style="font-size:0.62rem;color:var(--muted);font-weight:600;text-transform:uppercase;">Pendente</div><div style="color:var(--accent);font-family:'DM Mono',monospace;">${fmt(instPending)}</div></div>
       </div>
     </div>`;
   }
-
   const profitColor = (c.profit || 0) >= 0 ? 'var(--green)' : 'var(--red)';
   document.getElementById('detailBody').innerHTML = `
     <div class="detail-hero">
       <div class="detail-name">${c.name}</div>
-      <div class="detail-meta" style="margin-top:0.25rem;">📧 ${c.email}${c.phone?` &nbsp;·&nbsp; 📱 ${c.phone}`:''}${c.passport?` &nbsp;·&nbsp; 🛂 ${c.passport}`:''}</div>
-      <div style="font-size:0.75rem;color:var(--accent2);margin-top:0.35rem;font-family:'DM Mono',monospace;">🇧🇷 → 🇮🇳 &nbsp;·&nbsp; ${c.travellers||1} viajante(s) &nbsp;·&nbsp; ${c.package||'Standard'}${bname?` &nbsp;·&nbsp; 📦 ${bname}`:''}</div>
+      <div class="detail-meta" style="margin-top:0.25rem;">📧 ${c.email}${c.phone?` · 📱 ${c.phone}`:''}${c.passport?` · 🛂 ${c.passport}`:''}</div>
+      <div style="font-size:0.75rem;color:var(--accent2);margin-top:0.35rem;font-family:'DM Mono',monospace;">🇧🇷 → 🇮🇳 · ${c.travellers||1} viajante(s) · ${c.package||'Standard'}${bname?` · 📦 ${bname}`:''}</div>
       <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.6rem;justify-content:space-between;align-items:flex-end;">
         <span class="badge ${badge}">${c.status}</span>
         <div style="text-align:right;"><div style="font-size:0.62rem;color:var(--muted);font-weight:600;text-transform:uppercase;">Partida / Retorno</div><div style="font-size:0.78rem;">${dep} → ${ret}</div></div>
       </div>
     </div>
-
     <div class="section-title">Detalhamento de Custos</div>
-    <div class="breakdown-grid">
-      ${Object.entries(catI).map(([k, icon]) => {const amt=costs[k]||0;if(!amt)return'';return`<div class="breakdown-card"><div style="font-size:1rem;margin-bottom:0.2rem;">${icon}</div><div class="breakdown-label">${catL[k]}</div><div class="breakdown-amount">${fmt(amt)}<span style="font-size:0.58rem;color:var(--muted);"> /pessoa</span></div></div>`;}).join('') || '<p style="color:var(--muted);font-size:0.8rem;">Nenhum custo registrado.</p>'}
-    </div>
-
+    <div class="breakdown-grid">${Object.entries(catI).map(([k, icon]) => {const amt=costs[k]||0;if(!amt)return'';return`<div class="breakdown-card"><div style="font-size:1rem;margin-bottom:0.2rem;">${icon}</div><div class="breakdown-label">${catL[k]}</div><div class="breakdown-amount">${fmt(amt)}<span style="font-size:0.58rem;color:var(--muted);"> /pessoa</span></div></div>`;}).join('') || '<p style="color:var(--muted);font-size:0.8rem;">Nenhum custo registrado.</p>'}</div>
     <div style="background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:1rem;margin-bottom:0.85rem;">
       <div class="section-title" style="margin-bottom:0.75rem;">Resumo Financeiro</div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:0.6rem;">
@@ -948,7 +1074,6 @@ function showDetail(id) {
       <div class="payment-bar-track"><div class="payment-bar-fill" style="width:${pct}%"></div></div>
       <div class="payment-bar-labels"><span style="color:var(--green);">${pct.toFixed(0)}% Pago</span><span style="color:var(--red);">${(100-pct).toFixed(0)}% Devendo</span></div>
     </div>
-
     ${installHtml}
     ${c.notes?`<div style="background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:0.9rem;font-size:0.81rem;color:var(--muted);line-height:1.6;margin-top:0.85rem;"><strong style="color:var(--accent2);font-size:0.62rem;letter-spacing:0.07em;text-transform:uppercase;font-weight:700;">Observações</strong><br><br>${c.notes}</div>`:''}
   `;
@@ -998,9 +1123,8 @@ async function saveBatch() {
   } catch (e) { showToast('Erro: ' + e.message, 'error'); }
   finally { setBtn('saveBatchBtn', false, 'Salvar Grupo'); }
 }
-
 async function deleteBatch(id) {
-  if (!confirm('Excluir grupo? Clientes permanecerão sem grupo.')) return;
+  if (!confirm('Excluir grupo?')) return;
   try {
     await apiFetch('/batches/' + id, { method: 'DELETE' });
     clients.forEach(c => { if (c.batchId === id) c.batchId = ''; });
@@ -1009,13 +1133,11 @@ async function deleteBatch(id) {
     showToast('Grupo excluído.');
   } catch (e) { showToast('Erro: ' + e.message, 'error'); }
 }
-
 function renderBatches() {
   const grid = document.getElementById('batchGrid');
   if (!batches.length) {
     grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="icon">📦</div><p>Nenhum grupo criado ainda.</p><button class="btn btn-gold" onclick="openBatchModal()">Criar Grupo</button></div>`;
-    document.getElementById('batchDetailSection').style.display = 'none';
-    return;
+    document.getElementById('batchDetailSection').style.display = 'none'; return;
   }
   grid.innerHTML = batches.map(b => {
     const bc = clients.filter(c => c.batchId === b._id);
@@ -1026,7 +1148,6 @@ function renderBatches() {
     const netProfit = profit - bExpenses;
     const dep = b.departure ? new Date(b.departure).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}) : '—';
     const fill = b.capacity > 0 ? Math.min(100, bc.length / b.capacity * 100) : 0;
-    const profitColor = netProfit >= 0 ? 'var(--green)' : 'var(--red)';
     return `<div class="batch-card ${b.month}" onclick="showBatchDetail('${b._id}')">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;">
         <span class="badge" style="background:rgba(107,63,160,0.1);color:var(--purple);font-size:0.6rem;">${b.month.toUpperCase()}</span>
@@ -1036,19 +1157,18 @@ function renderBatches() {
         </div>
       </div>
       <div class="batch-name">${b.name}</div>
-      <div style="font-size:0.71rem;color:var(--muted);margin-bottom:0.6rem;">✈ ${dep} &nbsp;·&nbsp; ${bc.length}/${b.capacity} vagas</div>
+      <div style="font-size:0.71rem;color:var(--muted);margin-bottom:0.6rem;">✈ ${dep} · ${bc.length}/${b.capacity} vagas</div>
       <div style="height:4px;background:var(--surface2);border-radius:100px;overflow:hidden;margin-bottom:0.6rem;"><div style="height:100%;background:var(--accent);width:${fill}%;border-radius:100px;"></div></div>
       <div class="batch-stats">
         <div><div class="batch-stat-label">Clientes</div><div class="batch-stat-val" style="color:var(--accent);">${bc.length}</div></div>
         <div><div class="batch-stat-label">Recebido</div><div class="batch-stat-val" style="color:var(--green);">${fmt(revenue)}</div></div>
         <div><div class="batch-stat-label">A Receber</div><div class="batch-stat-val" style="color:var(--red);">${fmt(due)}</div></div>
-        <div><div class="batch-stat-label">Lucro Líq.</div><div class="batch-stat-val" style="color:${profitColor};">${fmt(netProfit)}</div></div>
+        <div><div class="batch-stat-label">Lucro Líq.</div><div class="batch-stat-val" style="color:${netProfit>=0?'var(--green)':'var(--red)'};">${fmt(netProfit)}</div></div>
       </div>
       ${bExpenses>0?`<div style="margin-top:0.6rem;padding-top:0.6rem;border-top:1px solid var(--border);font-size:0.7rem;color:var(--red);">💸 Despesas do grupo: ${fmt(bExpenses)}</div>`:''}
     </div>`;
   }).join('');
 }
-
 function showBatchDetail(batchId) {
   const b = batches.find(x => x._id === batchId); if (!b) return;
   const bc = clients.filter(c => c.batchId === batchId);
@@ -1057,7 +1177,6 @@ function showBatchDetail(batchId) {
   document.getElementById('batchDetailTitle').textContent = b.name + ' — Clientes';
   sec.style.display = '';
   sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
   if (!bc.length) {
     document.getElementById('batchDetailTable').innerHTML = `<div class="empty-state"><div class="icon">👥</div><p>Nenhum cliente neste grupo.</p></div>`;
   } else {
@@ -1067,7 +1186,7 @@ function showBatchDetail(batchId) {
     document.getElementById('batchDetailTable').innerHTML = `
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0.6rem;padding:0.85rem 1rem;border-bottom:1px solid var(--border);">
         <div class="stat-card" style="margin:0;"><div class="stat-label">Clientes</div><div class="stat-value gold" style="font-size:1.2rem;">${bc.length}</div></div>
-        <div class="stat-card" style="margin:0;"><div class="stat-label">Total Recebido</div><div class="stat-value green" style="font-size:1.1rem;">${fmt(totalRev)}</div></div>
+        <div class="stat-card" style="margin:0;"><div class="stat-label">Recebido</div><div class="stat-value green" style="font-size:1.1rem;">${fmt(totalRev)}</div></div>
         <div class="stat-card" style="margin:0;"><div class="stat-label">A Receber</div><div class="stat-value red" style="font-size:1.1rem;">${fmt(totalDue)}</div></div>
         <div class="stat-card" style="margin:0;"><div class="stat-label">Lucro Bruto</div><div class="stat-value teal" style="font-size:1.1rem;">${fmt(totalProfit)}</div></div>
       </div>
@@ -1075,54 +1194,70 @@ function showBatchDetail(batchId) {
       <tbody>${bc.map(c => {
         const badge = c.status==='Pago'?'badge-pago':c.status==='Parcial'?'badge-parcial':c.status==='Parcelado'?'badge-parcelas':'badge-pendente';
         const due2 = c.total - c.paid;
-        return `<tr>
-          <td><div class="client-name">${c.name}</div><div class="client-email">${c.email}</div></td>
-          <td style="text-align:center;">${c.travellers||1}</td>
-          <td class="amount total">${fmt(c.total)}</td>
-          <td class="amount paid">${fmt(c.paid)}</td>
-          <td class="amount due">${due2>0?fmt(due2):'<span style="color:var(--green)">✓</span>'}</td>
-          <td style="color:${(c.profit||0)>=0?'var(--green)':'var(--red)'};font-family:'DM Mono',monospace;font-size:0.79rem;">${fmt(c.profit||0)}</td>
-          <td><span class="badge ${badge}">${c.status}</span></td>
-          <td><button class="btn btn-outline btn-sm" onclick="showDetail('${c._id}')">Ver</button></td>
-        </tr>`;
+        return `<tr><td><div class="client-name">${c.name}</div><div class="client-email">${c.email}</div></td><td style="text-align:center;">${c.travellers||1}</td><td class="amount total">${fmt(c.total)}</td><td class="amount paid">${fmt(c.paid)}</td><td class="amount due">${due2>0?fmt(due2):'<span style="color:var(--green)">✓</span>'}</td><td style="color:${(c.profit||0)>=0?'var(--green)':'var(--red)'};font-family:'DM Mono',monospace;font-size:0.79rem;">${fmt(c.profit||0)}</td><td><span class="badge ${badge}">${c.status}</span></td><td><button class="btn btn-outline btn-sm" onclick="showDetail('${c._id}')">Ver</button></td></tr>`;
       }).join('')}</tbody></table></div>`;
   }
-
-  // Group expenses inline
   const expSection = document.getElementById('batchExpensesDetail');
   if (bExps.length) {
     const bExpTotal = bExps.reduce((s,e)=>s+e.amount,0);
-    expSection.innerHTML = `
-      <div class="group-expense-section">
-        <div class="group-expense-section-title">💸 Despesas deste Grupo — Total: ${fmt(bExpTotal)}</div>
-        ${bExps.map(e => {
-          const d = e.date ? new Date(e.date).toLocaleDateString('pt-BR',{day:'2-digit',month:'short'}) : '—';
-          return `<div class="group-exp-item">
-            <div>
-              <div style="font-weight:600;">${e.desc}</div>
-              <div style="font-size:0.69rem;color:var(--muted);">${e.category} &nbsp;·&nbsp; ${d}${e.ref?' &nbsp;·&nbsp; '+e.ref:''}</div>
-            </div>
-            <div style="font-family:'DM Mono',monospace;color:var(--red);font-weight:500;">${fmt(e.amount)}</div>
-          </div>`;
-        }).join('')}
-        <button class="btn btn-outline btn-sm" style="margin-top:0.65rem;" onclick="openExpenseModal()">+ Adicionar Despesa ao Grupo</button>
-      </div>`;
-  } else {
     expSection.innerHTML = `<div class="group-expense-section">
-      <div class="group-expense-section-title">💸 Despesas do Grupo</div>
-      <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.65rem;">Nenhuma despesa registrada para este grupo.</div>
-      <button class="btn btn-outline btn-sm" onclick="openExpenseModal()">+ Adicionar Despesa</button>
+      <div class="group-expense-section-title">💸 Despesas deste Grupo — Total: ${fmt(bExpTotal)}</div>
+      ${bExps.map(e => {
+        const d = e.date ? new Date(e.date).toLocaleDateString('pt-BR',{day:'2-digit',month:'short'}) : '—';
+        return `<div class="group-exp-item"><div><div style="font-weight:600;">${e.desc}</div><div style="font-size:0.69rem;color:var(--muted);">${e.category}${e.subcat?' › '+e.subcat:''} · ${d}${e.ref?' · '+e.ref:''}</div></div><div style="font-family:'DM Mono',monospace;color:var(--red);font-weight:500;">${fmt(e.amount)}</div></div>`;
+      }).join('')}
+      <button class="btn btn-outline btn-sm" style="margin-top:0.65rem;" onclick="openExpenseModal()">+ Adicionar Despesa ao Grupo</button>
     </div>`;
+  } else {
+    expSection.innerHTML = `<div class="group-expense-section"><div class="group-expense-section-title">💸 Despesas do Grupo</div><div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.65rem;">Nenhuma despesa registrada.</div><button class="btn btn-outline btn-sm" onclick="openExpenseModal()">+ Adicionar Despesa</button></div>`;
   }
 }
 
-// ===== EXPENSES =====
+// ===== EXPENSES — ENHANCED =====
+
+// Subcategory config for modal
+const SUBCAT_MAP = {
+  'Operações':    ['🏢 Aluguel', '📡 Internet/Tel.', '💡 Energia/Água', '📦 Material Escritório', '📊 Contabilidade', '⚖️ Jurídico', '📋 Outros Op.'],
+  'Marketing':    ['🔵 Google Ads', '🟣 Meta Ads', '📘 Facebook Ads', '📸 Instagram Ads', '🎵 TikTok Ads', '▶️ YouTube Ads', '⭐ Influencer', '📧 E-mail Marketing', '🔍 SEO/Blog', '🎨 Design/Criativo', '📣 Outros Mkt'],
+  'Vendas':       ['💰 Comissão Vendedor', '🗂 CRM/Plataforma', '🎓 Treinamento', '📄 Material de Vendas', '🏛 Feiras/Eventos', '💼 Outros Vendas'],
+  'Funcionários': ['💵 Salários', '🎁 Benefícios', '🧑‍💻 Freelancer', '📚 Treinamento RH', '👥 Outros RH'],
+  'Tecnologia':   ['🖥 Software/SaaS', '☁️ Hospedagem', '🖨 Hardware', '🔒 Segurança TI', '💻 Outros TI'],
+  'Viagem':       ['✈️ Passagens', '🏨 Hotel (equipe)', '🚌 Translado', '🍽 Alimentação', '🧳 Outros Viagem'],
+  'Grupo':        ['🗺 Guia Turístico', '🚌 Transfer Grupo', '🛡 Seguro Grupo', '🎟 Ingressos', '📦 Outros Grupo'],
+  'Outros':       ['📑 Impostos/Taxas', '🏦 Tarifas Bancárias', '⚠️ Multas', '📋 Diversos'],
+};
+
+function updateSubcatChips() {
+  const cat = document.getElementById('eCat').value;
+  const chips = SUBCAT_MAP[cat] || [];
+  document.getElementById('eSubcat').value = '';
+  document.getElementById('eCustomSubcat').value = '';
+  document.getElementById('subcatChips').innerHTML = chips.map(c =>
+    `<span class="subcat-chip" onclick="selectSubcat(this,'${c.replace(/'/g,"\\'")}')'">${c}</span>`
+  ).join('');
+}
+function selectSubcat(el, val) {
+  document.querySelectorAll('.subcat-chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('eSubcat').value = val;
+  document.getElementById('eCustomSubcat').value = '';
+}
+function handleCustomSubcat() {
+  const v = document.getElementById('eCustomSubcat').value;
+  document.querySelectorAll('.subcat-chip').forEach(c => c.classList.remove('selected'));
+  document.getElementById('eSubcat').value = v;
+}
+
 function openExpenseModal(batchIdPreset) {
-  ['eDesc','eRef'].forEach(f => document.getElementById(f).value = '');
+  ['eDesc','eRef','eVendor','eNotes'].forEach(f => document.getElementById(f).value = '');
   document.getElementById('eCat').value = 'Operações';
   document.getElementById('eAmount').value = '';
   document.getElementById('eDate').value = new Date().toISOString().split('T')[0];
+  document.getElementById('ePayMethod').value = '';
+  document.getElementById('eSubcat').value = '';
+  document.getElementById('eCustomSubcat').value = '';
   populateExpenseBatchFilters();
+  updateSubcatChips();
   if (batchIdPreset) document.getElementById('eBatch').value = batchIdPreset;
   document.getElementById('expenseModal').classList.add('open');
 }
@@ -1142,15 +1277,24 @@ async function saveExpense() {
   const desc = document.getElementById('eDesc').value.trim();
   const amount = parseFloat(document.getElementById('eAmount').value) || 0;
   if (!desc || !amount) { alert('Descrição e valor são obrigatórios.'); return; }
-  const payload = { desc, category: document.getElementById('eCat').value, amount, date: document.getElementById('eDate').value, batchId: document.getElementById('eBatch').value, ref: document.getElementById('eRef').value.trim() };
+  const subcat = document.getElementById('eSubcat').value || document.getElementById('eCustomSubcat').value || '';
+  const payload = {
+    desc, category: document.getElementById('eCat').value, subcat,
+    amount, date: document.getElementById('eDate').value,
+    batchId: document.getElementById('eBatch').value,
+    ref: document.getElementById('eRef').value.trim(),
+    payMethod: document.getElementById('ePayMethod').value,
+    vendor: document.getElementById('eVendor').value.trim(),
+    notes: document.getElementById('eNotes').value.trim()
+  };
   setBtn('saveExpenseBtn', true, 'Adicionar');
   try {
     const created = await apiFetch('/expenses', { method: 'POST', body: JSON.stringify(payload) });
     expenses.unshift(created);
-    closeExpenseModal(); renderExpenses(); renderExpenseStats(); renderBatches();
+    closeExpenseModal(); renderExpensePage(); renderBatches();
     showToast('Despesa salva! ✓');
   } catch (e) { showToast('Erro: ' + e.message, 'error'); }
-  finally { setBtn('saveExpenseBtn', false, 'Adicionar'); }
+  finally { setBtn('saveExpenseBtn', false, 'Adicionar Despesa'); }
 }
 
 async function deleteExpense(id) {
@@ -1158,53 +1302,226 @@ async function deleteExpense(id) {
   try {
     await apiFetch('/expenses/' + id, { method: 'DELETE' });
     expenses = expenses.filter(x => x._id !== id);
-    renderExpenses(); renderExpenseStats(); renderBatches();
+    renderExpensePage(); renderBatches();
     showToast('Despesa excluída.');
   } catch (e) { showToast('Erro: ' + e.message, 'error'); }
+}
+
+// ===== MAIN EXPENSE PAGE RENDER =====
+function renderExpensePage() {
+  renderExpenseStats();
+  renderCatSidebar();
+  renderSubcatCards();
+  renderExpenseTable();
+  renderMarketingSection();
 }
 
 function renderExpenseStats() {
   const total = expenses.reduce((s, e) => s + e.amount, 0);
   const now = new Date();
   const thisMonth = expenses.filter(e => { const m = new Date(e.date || e.createdAt); return m.getMonth()===now.getMonth()&&m.getFullYear()===now.getFullYear(); }).reduce((s,e)=>s+e.amount,0);
+  const mktTotal = expenses.filter(e => e.category === 'Marketing').reduce((s,e)=>s+e.amount,0);
+  const salesTotal = expenses.filter(e => e.category === 'Vendas').reduce((s,e)=>s+e.amount,0);
+  const groupExp = expenses.filter(e => e.batchId).reduce((s,e)=>s+e.amount,0);
   const cats = {};
   expenses.forEach(e => cats[e.category] = (cats[e.category]||0)+e.amount);
-  const topCat = Object.entries(cats).sort((a,b) => b[1]-a[1])[0];
-  const groupExp = expenses.filter(e => e.batchId).reduce((s,e)=>s+e.amount,0);
+  const topCat = Object.entries(cats).sort((a,b)=>b[1]-a[1])[0];
+
   document.getElementById('expenseStats').innerHTML = `
-    <div class="stat-card"><div class="stat-label">Total Despesas</div><div class="stat-value red">${fmt(total)}</div></div>
+    <div class="stat-card"><div class="stat-label">Total Despesas</div><div class="stat-value red">${fmt(total)}</div><div class="stat-sub">${expenses.length} lançamento(s)</div></div>
     <div class="stat-card"><div class="stat-label">Este Mês</div><div class="stat-value red">${fmt(thisMonth)}</div></div>
-    <div class="stat-card"><div class="stat-label">Despesas de Grupos</div><div class="stat-value purple">${fmt(groupExp)}</div></div>
-    <div class="stat-card"><div class="stat-label">Nº de Lançamentos</div><div class="stat-value gold">${expenses.length}</div></div>
+    <div class="stat-card"><div class="stat-label">💼 Vendas</div><div class="stat-value" style="color:var(--pink)">${fmt(salesTotal)}</div><div class="stat-sub">${total>0?(salesTotal/total*100).toFixed(1)+'% do total':''}</div></div>
+    <div class="stat-card"><div class="stat-label">📣 Marketing</div><div class="stat-value purple">${fmt(mktTotal)}</div><div class="stat-sub">${total>0?(mktTotal/total*100).toFixed(1)+'% do total':''}</div></div>
+    <div class="stat-card"><div class="stat-label">📦 Grupos</div><div class="stat-value" style="color:var(--red)">${fmt(groupExp)}</div></div>
     <div class="stat-card"><div class="stat-label">Maior Categoria</div><div class="stat-value" style="font-size:0.9rem;">${topCat?topCat[0]:'—'}</div>${topCat?`<div class="stat-sub">${fmt(topCat[1])}</div>`:''}</div>
   `;
 }
 
-function renderExpenses() {
-  const cf = document.getElementById('expCatFilter')?.value || '';
+function renderCatSidebar() {
+  const catTotals = {};
+  expenses.forEach(e => catTotals[e.category] = (catTotals[e.category]||0)+e.amount);
+  const totalAll = expenses.reduce((s,e)=>s+e.amount,0);
+  const cats = Object.keys(CATEGORIES);
+  let html = '';
+  cats.forEach(cat => {
+    const cfg = CATEGORIES[cat];
+    const amt = cat === 'Todas' ? totalAll : (catTotals[cat] || 0);
+    const isActive = activeCatFilter === cat;
+    html += `<div class="exp-cat-item ${isActive?'active':''}" onclick="setCatFilter('${cat}')">
+      <div class="cat-dot" style="background:${cfg.color}"></div>
+      <div class="cat-label">${cfg.icon} ${cat}</div>
+      <div class="cat-amt">${amt>0?fmt(amt):''}</div>
+    </div>`;
+  });
+  document.getElementById('expCatSidebar').innerHTML = html;
+}
+
+function setCatFilter(cat) {
+  activeCatFilter = cat;
+  renderCatSidebar();
+  renderSubcatCards();
+  renderExpenseTable();
+  renderMarketingSection();
+}
+
+function renderSubcatCards() {
+  const wrap = document.getElementById('expSubcatCards');
+  if (activeCatFilter === 'Todas' || !CATEGORIES[activeCatFilter]?.subcats?.length) { wrap.innerHTML = ''; return; }
+  const cfg = CATEGORIES[activeCatFilter];
+  const filtered = expenses.filter(e => e.category === activeCatFilter);
+  const subcatTotals = {};
+  filtered.forEach(e => {
+    const sk = e.subcat || 'Outros';
+    subcatTotals[sk] = (subcatTotals[sk]||0) + e.amount;
+  });
+  const totalCat = filtered.reduce((s,e)=>s+e.amount,0);
+  const mx = Math.max(...Object.values(subcatTotals), 1);
+
+  // Map subcats
+  const subcats = cfg.subcats;
+  if (!subcats.length) { wrap.innerHTML = ''; return; }
+
+  wrap.innerHTML = `<div class="exp-subcats">${subcats.map(sc => {
+    const amt = subcatTotals[sc.label] || 0;
+    const pct = totalCat > 0 ? (amt / totalCat * 100).toFixed(0) : 0;
+    const barPct = mx > 0 ? (amt / mx * 100) : 0;
+    return `<div class="exp-subcat-card" onclick="filterBySubcat('${sc.label}')">
+      <div class="sc-icon">${sc.icon}</div>
+      <div class="sc-name">${sc.label}</div>
+      <div class="sc-amt" style="color:${cfg.color}">${fmt(amt)}</div>
+      <div class="sc-count">${pct}% desta categoria</div>
+      <div class="sc-bar" style="background:${cfg.color};width:${barPct}%"></div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+let activeSubcatFilter = '';
+function filterBySubcat(sc) {
+  activeSubcatFilter = activeSubcatFilter === sc ? '' : sc;
+  renderSubcatCards();
+  renderExpenseTable();
+}
+
+function renderMarketingSection() {
+  const sec = document.getElementById('marketingSection');
+  const mktExps = expenses.filter(e => e.category === 'Marketing');
+  if (!mktExps.length) { sec.style.display = 'none'; return; }
+  sec.style.display = '';
+  const platforms = {
+    'Google Ads':     { icon: '🔵', key: ['Google Ads','🔵 Google Ads'] },
+    'Meta Ads':       { icon: '🟣', key: ['Meta Ads','🟣 Meta Ads'] },
+    'Facebook Ads':   { icon: '📘', key: ['Facebook Ads','📘 Facebook Ads'] },
+    'Instagram Ads':  { icon: '📸', key: ['Instagram Ads','📸 Instagram Ads'] },
+    'TikTok Ads':     { icon: '🎵', key: ['TikTok Ads','🎵 TikTok Ads'] },
+    'YouTube Ads':    { icon: '▶️', key: ['YouTube Ads','▶️ YouTube Ads'] },
+    'Influencer':     { icon: '⭐', key: ['Influencer','⭐ Influencer'] },
+    'E-mail Mkt':     { icon: '📧', key: ['E-mail Mkt','📧 E-mail Marketing','E-mail Marketing'] },
+    'SEO/Blog':       { icon: '🔍', key: ['SEO/Blog','🔍 SEO/Blog','SEO'] },
+    'Design':         { icon: '🎨', key: ['Design','🎨 Design/Criativo','Design/Criativo'] },
+  };
+  const totals = {};
+  mktExps.forEach(e => {
+    const sc = e.subcat || 'Outros';
+    for (const [name, cfg] of Object.entries(platforms)) {
+      if (cfg.key.some(k => sc.includes(k.replace(/[🔵🟣📘📸🎵▶️⭐📧🔍🎨]\s*/,''))) || sc === name) {
+        totals[name] = (totals[name]||0) + e.amount; return;
+      }
+    }
+    totals['Outros'] = (totals['Outros']||0) + e.amount;
+  });
+  const totalMkt = mktExps.reduce((s,e)=>s+e.amount,0);
+  document.getElementById('marketingBreakdown').innerHTML = Object.entries({...platforms, 'Outros': {icon:'📣'}}).map(([name, cfg]) => {
+    const amt = totals[name] || 0;
+    if (!amt) return '';
+    const pct = totalMkt > 0 ? (amt/totalMkt*100).toFixed(0) : 0;
+    return `<div class="mkt-card">
+      <div class="mkt-card-icon">${cfg.icon}</div>
+      <div class="mkt-card-name">${name}</div>
+      <div class="mkt-card-val" style="color:var(--purple)">${fmt(amt)}</div>
+      <div style="font-size:0.65rem;color:var(--muted);margin-top:0.15rem;">${pct}% do mkt</div>
+      <div style="height:3px;background:var(--border);border-radius:2px;margin-top:0.4rem;overflow:hidden;"><div style="height:100%;background:var(--purple);width:${pct}%;border-radius:2px;"></div></div>
+    </div>`;
+  }).join('');
+}
+
+function getFilteredExpenses() {
+  const q = (document.getElementById('expSearch')?.value || '').toLowerCase();
   const bf = document.getElementById('expBatchFilter')?.value || '';
+  const mf = document.getElementById('expMonthFilter')?.value;
   let list = expenses;
-  if (cf) list = list.filter(e => e.category === cf);
+  if (activeCatFilter !== 'Todas') list = list.filter(e => e.category === activeCatFilter);
+  if (activeSubcatFilter) list = list.filter(e => (e.subcat||'').includes(activeSubcatFilter.replace(/^[^\s]+ /,'')));
   if (bf) list = list.filter(e => e.batchId === bf);
+  if (mf !== '' && mf !== undefined && mf !== null) { const m = parseInt(mf); list = list.filter(e => { if (!e.date) return false; return new Date(e.date).getMonth() === m; }); }
+  if (q) list = list.filter(e => (e.desc||'').toLowerCase().includes(q) || (e.vendor||'').toLowerCase().includes(q) || (e.ref||'').toLowerCase().includes(q) || (e.subcat||'').toLowerCase().includes(q) || (e.category||'').toLowerCase().includes(q));
+  return list;
+}
+
+function renderExpenseTable() {
+  const list = getFilteredExpenses();
   const total = list.reduce((s, e) => s + e.amount, 0);
-  const te = document.getElementById('expTotal'); if (te) te.textContent = `Total: ${fmt(total)}`;
+  const te = document.getElementById('expTableTotal');
+  if (te) te.textContent = `${list.length} registro(s) · Total: ${fmt(total)}`;
   const wrap = document.getElementById('expenseTableWrap');
-  if (!list.length) { wrap.innerHTML = `<div class="empty-state"><div class="icon">💸</div><p>Nenhuma despesa encontrada.</p></div>`; return; }
-  const catColor = {'Operações':'var(--blue)','Marketing':'var(--purple)','Funcionários':'var(--accent2)','Tecnologia':'var(--muted)','Viagem':'var(--accent)','Grupo':'var(--red)','Outros':'var(--muted)'};
-  wrap.innerHTML = `<table><thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Grupo</th><th>Ref.</th><th>Valor</th><th></th></tr></thead>
+  if (!list.length) {
+    wrap.innerHTML = `<div class="empty-state"><div class="icon">💸</div><p>Nenhuma despesa encontrada para este filtro.</p><button class="btn btn-gold btn-sm" onclick="openExpenseModal()">+ Adicionar Despesa</button></div>`;
+    return;
+  }
+  const catColorMap = {'Operações':'var(--blue)','Marketing':'var(--purple)','Funcionários':'var(--accent2)','Tecnologia':'var(--sky)','Viagem':'var(--accent)','Grupo':'var(--red)','Vendas':'var(--pink)','Outros':'var(--muted)'};
+  wrap.innerHTML = `<table class="excel-table">
+    <thead><tr>
+      <th style="width:90px;">Data</th>
+      <th>Descrição</th>
+      <th style="width:100px;">Categoria</th>
+      <th style="width:120px;">Subcategoria</th>
+      <th style="width:110px;">Fornecedor</th>
+      <th style="width:80px;">Método</th>
+      <th style="width:75px;">Grupo</th>
+      <th style="width:75px;">Ref.</th>
+      <th style="width:90px;">Valor</th>
+      <th style="width:50px;"></th>
+    </tr></thead>
     <tbody>${list.map(e => {
-      const d = e.date ? new Date(e.date).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}) : '—';
-      const col = catColor[e.category] || 'var(--muted)';
+      const d = e.date ? new Date(e.date).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'2-digit'}) : '—';
+      const col = catColorMap[e.category] || 'var(--muted)';
+      const bname = getBatchName(e.batchId);
       return `<tr>
-        <td style="font-size:0.76rem;color:var(--muted);font-family:'DM Mono',monospace;white-space:nowrap;">${d}</td>
-        <td class="client-name">${e.desc}</td>
-        <td><span class="badge" style="background:rgba(0,0,0,0.05);color:${col}">${e.category}</span></td>
-        <td>${e.batchId?`<span style="color:var(--purple);font-size:0.77rem;">${getBatchName(e.batchId)}</span>`:'<span style="color:var(--muted);font-size:0.7rem;">—</span>'}</td>
-        <td style="font-family:'DM Mono',monospace;font-size:0.73rem;color:var(--muted);">${e.ref||'—'}</td>
-        <td class="amount due">${fmt(e.amount)}</td>
-        <td><button class="btn btn-danger btn-sm" onclick="deleteExpense('${e._id}')">Excluir</button></td>
+        <td style="font-family:'DM Mono',monospace;font-size:0.73rem;color:var(--muted);white-space:nowrap;">${d}</td>
+        <td>
+          <div class="client-name" style="font-size:0.8rem;">${e.desc}</div>
+          ${e.notes?`<div class="client-email">${e.notes}</div>`:''}
+        </td>
+        <td><span class="badge" style="color:${col};background:${col}22;">${e.category||'—'}</span></td>
+        <td style="font-size:0.74rem;color:var(--muted);">${e.subcat||'—'}</td>
+        <td style="font-size:0.74rem;color:var(--text);">${e.vendor||'—'}</td>
+        <td style="font-size:0.7rem;color:var(--muted);">${e.payMethod||'—'}</td>
+        <td>${bname?`<span style="color:var(--purple);font-size:0.72rem;">${bname}</span>`:'<span style="color:var(--muted);font-size:0.7rem;">—</span>'}</td>
+        <td style="font-family:'DM Mono',monospace;font-size:0.71rem;color:var(--muted);">${e.ref||'—'}</td>
+        <td class="amount due" style="font-weight:600;">${fmt(e.amount)}</td>
+        <td><button class="btn btn-danger btn-sm" onclick="deleteExpense('${e._id}')">✕</button></td>
       </tr>`;
-    }).join('')}</tbody></table>`;
+    }).join('')}</tbody>
+    <tfoot><tr style="background:var(--surface2);">
+      <td colspan="8" style="padding:0.55rem 0.85rem;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);font-weight:700;">TOTAL FILTRADO</td>
+      <td style="padding:0.55rem 0.85rem;font-family:'DM Mono',monospace;font-weight:700;color:var(--red);">${fmt(total)}</td>
+      <td></td>
+    </tr></tfoot>
+  </table>`;
+}
+
+function exportExpensesCSV() {
+  const list = getFilteredExpenses();
+  const rows = [['Data','Descrição','Categoria','Subcategoria','Fornecedor','Método Pgto','Grupo','Referência','Notas','Valor (R$)']];
+  list.forEach(e => {
+    const d = e.date ? new Date(e.date).toLocaleDateString('pt-BR') : '';
+    rows.push([d, e.desc||'', e.category||'', e.subcat||'', e.vendor||'', e.payMethod||'', getBatchName(e.batchId)||'', e.ref||'', e.notes||'', (e.amount||0).toFixed(2).replace('.',',')]);
+  });
+  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob(['\uFEFF'+csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'despesas_voyage.csv'; a.click();
+  URL.revokeObjectURL(url);
+  showToast('CSV exportado! ✓');
 }
 
 // ===== DASHBOARD =====
@@ -1222,7 +1539,6 @@ function renderDashboard() {
   document.getElementById('stat-batches').textContent = batches.length;
   document.getElementById('stat-paid').textContent = clients.filter(c => c.status === 'Pago').length;
   document.getElementById('stat-travellers').textContent = clients.reduce((s,c) => s + (c.travellers||1), 0);
-
   const wrap = document.getElementById('dashRecentWrap');
   const recent = clients.slice(0, 8);
   if (!recent.length) {
@@ -1261,10 +1577,9 @@ function renderReports() {
   clients.forEach(c => statusCounts[c.status] = (statusCounts[c.status]||0)+1);
   const pkgTotals = {};
   clients.forEach(c => { const p=c.package||'Standard'; pkgTotals[p]=(pkgTotals[p]||0)+1; });
-
   document.getElementById('reportCards').innerHTML = `
     <div class="report-card"><h3>Resultado Financeiro</h3>
-      ${[['Valor Total de Pacotes','var(--accent)',totalCost],['Receita Recebida','var(--green)',totalRevenue],['Lucro Bruto','var(--accent2)',grossProfit],['Despesas da Agência','var(--red)',totalExpenses]].map(([l,c,v])=>`<div style="margin-bottom:0.55rem;"><div class="stat-label">${l}</div><div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:${c};">${fmt(v)}</div></div>`).join('')}
+      ${[['Total de Pacotes','var(--accent)',totalCost],['Receita Recebida','var(--green)',totalRevenue],['Lucro Bruto','var(--accent2)',grossProfit],['Despesas','var(--red)',totalExpenses]].map(([l,c,v])=>`<div style="margin-bottom:0.55rem;"><div class="stat-label">${l}</div><div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:${c};">${fmt(v)}</div></div>`).join('')}
       <div style="padding-top:0.55rem;border-top:1px solid var(--border);"><div class="stat-label">Lucro Líquido</div><div style="font-family:'Playfair Display',serif;font-size:1.35rem;color:${netProfit>=0?'var(--green)':'var(--red)'};">${fmt(netProfit)}</div><div style="font-size:0.69rem;color:var(--muted);margin-top:2px;">Margem: ${margin}%</div></div>
     </div>
     <div class="report-card"><h3>Status de Pagamentos</h3>
@@ -1274,16 +1589,12 @@ function renderReports() {
     <div class="report-card"><h3>Tipo de Pacote</h3>
       ${Object.keys(pkgTotals).length?Object.entries(pkgTotals).map(([p,n])=>{const pct=clients.length>0?(n/clients.length*100).toFixed(0):0;return`<div class="chart-bar-row"><div class="chart-bar-label">${p}</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:${pct}%;background:var(--blue)"></div></div><div class="chart-bar-val">${n} (${pct}%)</div></div>`;}).join(''):'<p style="color:var(--muted);font-size:0.8rem;">Sem dados.</p>'}
     </div>`;
-
-  // Category breakdown
   const ck = ['flight','hotel','monuments','transport','gifts','events','meals','insurance','visa','other'];
   const cl = ['✈ Passagens','🏨 Hotel','🏛 Monumentos','🚌 Transporte','🎁 Presentes','🎟 Shows','🍽 Alimentação','🛡 Seguro','🧳 Visto','📋 Outros'];
   const cc = ['#1a5fa8','#6b3fa0','#b8621a','#1a7a4a','#c0392b','#c0386e','#d4541e','#0d8a74','#b8621a','#7a7468'];
   const ct = ck.map(k => clients.reduce((s,c) => s+(c.costs?.[k]||0)*(c.travellers||1), 0));
   const mx = Math.max(...ct, 1);
-  document.getElementById('categoryBreakdown').innerHTML = `<div style="font-size:0.62rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);font-weight:600;margin-bottom:0.6rem;">Total consolidado por categoria</div>${ck.map((k,i)=>`<div class="chart-bar-row" style="margin-bottom:0.7rem;"><div class="chart-bar-label">${cl[i]}</div><div class="chart-bar-track" style="height:7px;"><div class="chart-bar-fill" style="width:${ct[i]/mx*100}%;background:${cc[i]}"></div></div><div class="chart-bar-val">${fmt(ct[i])}</div></div>`).join('')}`;
-
-  // Batch profit report
+  document.getElementById('categoryBreakdown').innerHTML = `<div style="font-size:0.62rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);font-weight:600;margin-bottom:0.6rem;">Total consolidado por categoria de custo</div>${ck.map((k,i)=>`<div class="chart-bar-row" style="margin-bottom:0.7rem;"><div class="chart-bar-label">${cl[i]}</div><div class="chart-bar-track" style="height:7px;"><div class="chart-bar-fill" style="width:${ct[i]/mx*100}%;background:${cc[i]}"></div></div><div class="chart-bar-val">${fmt(ct[i])}</div></div>`).join('')}`;
   if (!batches.length) {
     document.getElementById('batchProfitReport').innerHTML = '<p style="color:var(--muted);font-size:0.8rem;">Nenhum grupo criado ainda.</p>';
   } else {
@@ -1296,28 +1607,47 @@ function renderReports() {
         const np=gp-bexp;
         const bd=bc.reduce((s,c)=>s+Math.max(0,c.total-c.paid),0);
         const tr=bc.reduce((s,c)=>s+(c.travellers||1),0);
-        return`<tr>
-          <td class="client-name">${b.name}</td>
-          <td><span class="badge" style="background:rgba(107,63,160,0.1);color:var(--purple);font-size:0.6rem;">${b.month.toUpperCase()}</span></td>
-          <td style="text-align:center;">${bc.length}/${b.capacity}</td>
-          <td style="text-align:center;">${tr}</td>
-          <td class="amount paid">${fmt(rev)}</td>
-          <td class="amount" style="color:var(--accent2);">${fmt(gp)}</td>
-          <td class="amount due">${fmt(bexp)}</td>
-          <td style="color:${np>=0?'var(--green)':'var(--red)'};font-family:'DM Mono',monospace;font-size:0.79rem;font-weight:500;">${fmt(np)}</td>
-          <td class="amount due">${bd>0?fmt(bd):'—'}</td>
-        </tr>`;
+        return`<tr><td class="client-name">${b.name}</td><td><span class="badge" style="background:rgba(107,63,160,0.1);color:var(--purple);font-size:0.6rem;">${b.month.toUpperCase()}</span></td><td style="text-align:center;">${bc.length}/${b.capacity}</td><td style="text-align:center;">${tr}</td><td class="amount paid">${fmt(rev)}</td><td class="amount" style="color:var(--accent2);">${fmt(gp)}</td><td class="amount due">${fmt(bexp)}</td><td style="color:${np>=0?'var(--green)':'var(--red)'};font-family:'DM Mono',monospace;font-size:0.79rem;font-weight:500;">${fmt(np)}</td><td class="amount due">${bd>0?fmt(bd):'—'}</td></tr>`;
       }).join('')}</tbody></table></div>`;
   }
+  // Expenses by category report
+  const expCatData = {};
+  expenses.forEach(e => {
+    const cat = e.category || 'Outros';
+    if (!expCatData[cat]) expCatData[cat] = { total: 0, subcats: {} };
+    expCatData[cat].total += e.amount;
+    const sc = e.subcat || '—';
+    expCatData[cat].subcats[sc] = (expCatData[cat].subcats[sc]||0) + e.amount;
+  });
+  const sortedCats = Object.entries(expCatData).sort((a,b)=>b[1].total-a[1].total);
+  const totalExp = expenses.reduce((s,e)=>s+e.amount,0);
+  const catColorMap = {'Operações':'var(--blue)','Marketing':'var(--purple)','Funcionários':'var(--accent2)','Tecnologia':'var(--sky)','Viagem':'var(--accent)','Grupo':'var(--red)','Vendas':'var(--pink)','Outros':'var(--muted)'};
+  document.getElementById('expenseCatReport').innerHTML = !sortedCats.length ? '<p style="color:var(--muted);font-size:0.8rem;">Nenhuma despesa registrada.</p>' :
+    `<div class="table-scroll"><table><thead><tr><th>Categoria</th><th>Subcategoria Principal</th><th>Lançamentos</th><th>Total</th><th>% do Total</th><th>Barra</th></tr></thead>
+    <tbody>${sortedCats.map(([cat, data]) => {
+      const col = catColorMap[cat] || 'var(--muted)';
+      const pct = totalExp > 0 ? (data.total / totalExp * 100).toFixed(1) : 0;
+      const topSub = Object.entries(data.subcats).sort((a,b)=>b[1]-a[1])[0];
+      const count = expenses.filter(e=>e.category===cat).length;
+      return `<tr>
+        <td><span class="badge" style="color:${col};background:${col}22;">${CATEGORIES[cat]?.icon||'📋'} ${cat}</span></td>
+        <td style="font-size:0.76rem;color:var(--muted);">${topSub?topSub[0]:'—'}</td>
+        <td style="text-align:center;font-family:'DM Mono',monospace;font-size:0.75rem;">${count}</td>
+        <td class="amount due" style="font-weight:600;">${fmt(data.total)}</td>
+        <td style="font-family:'DM Mono',monospace;font-size:0.76rem;color:var(--muted);">${pct}%</td>
+        <td style="min-width:120px;"><div style="height:6px;background:var(--surface2);border-radius:100px;overflow:hidden;"><div style="height:100%;background:${col};width:${pct}%;border-radius:100px;"></div></div></td>
+      </tr>`;
+    }).join('')}</tbody>
+    <tfoot><tr style="background:var(--surface2);"><td colspan="3" style="padding:0.55rem 0.85rem;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);font-weight:700;">TOTAL</td><td style="padding:0.55rem 0.85rem;font-family:'DM Mono',monospace;font-weight:700;color:var(--red);">${fmt(totalExp)}</td><td colspan="2"></td></tr></tfoot>
+    </table></div>`;
 }
 
-// ===== TOAST =====
 function showToast(msg, type='success') {
   const t = document.createElement('div');
   t.className = 'toast ' + type;
   t.textContent = (type==='success'?'✓ ':'✗ ') + msg;
   document.body.appendChild(t);
-  setTimeout(() => t.remove(), 3000);
+  setTimeout(() => t.remove(), 3200);
 }
 
 loadAll();
