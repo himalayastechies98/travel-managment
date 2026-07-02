@@ -2,9 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config();
-
-
 
 console.log("ENV CHECK:", process.env.MONGO_URI);
 const app = express();
@@ -28,13 +25,13 @@ const clientSchema = new mongoose.Schema({
   travellers: { type: Number, default: 1 },
   package: String,
   batchId: String,
-  status: { type: String, enum: ['Paid', 'Partial', 'Unpaid', 'Installment'], default: 'Unpaid' },
+  status: { type: String, enum: ['Pago', 'Parcial', 'Pendente', 'Parcelado'], default: 'Pendente' },
   paid: { type: Number, default: 0 },
   paymentType: { type: String, default: 'full' },
   installments: [{
     date: String,
     amount: Number,
-    status: { type: String, enum: ['pending', 'paid', 'overdue'], default: 'pending' }
+    status: { type: String, enum: ['pendente', 'pago', 'atrasado'], default: 'pendente' }
   }],
   notes: String,
   costs: {
@@ -63,10 +60,14 @@ const batchSchema = new mongoose.Schema({
 const expenseSchema = new mongoose.Schema({
   desc: { type: String, required: true },
   category: String,
+  subcat: String,
   amount: { type: Number, required: true },
   date: String,
   batchId: String,
-  ref: String
+  ref: String,
+  payMethod: String,
+  vendor: String,
+  notes: String
 }, { timestamps: true });
 
 const Client = mongoose.model('Client', clientSchema);
@@ -159,12 +160,14 @@ app.delete('/api/expenses/:id', async (req, res) => {
     res.json({ success: true });
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
+
 app.get("/", (req, res) => {
   res.json({
     status: "ok",
     message: "VoyageFinance API is live 🚀"
   });
 });
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
