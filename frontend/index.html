@@ -432,7 +432,7 @@ select { cursor: pointer; }
 <!-- EXPENSE MODAL — ENHANCED -->
 <div class="modal-overlay" id="expenseModal">
   <div class="modal" style="max-width:600px;">
-    <div class="modal-header"><div class="modal-title">Adicionar Despesa</div><button class="modal-close" onclick="closeExpenseModal()">×</button></div>
+    <div class="modal-header"><div class="modal-title" id="expenseModalTitle">Adicionar Despesa</div><button class="modal-close" onclick="closeExpenseModal()">×</button></div>
     <div class="modal-body">
       <div class="form-grid">
         <div class="form-group"><label>Descrição *</label><input type="text" id="eDesc" placeholder="Ex: Campanha Google Ads – Índia"></div>
@@ -619,7 +619,7 @@ select { cursor: pointer; }
 <script>
 const API = "https://voyage-finance-api.onrender.com/api";
 let clients = [], batches = [], expenses = [];
-let editingId = null, editingBatchId = null, currentFilter = 'All';
+let editingId = null, editingBatchId = null, editingExpenseId = null, currentFilter = 'All';
 let activeCatFilter = 'Todas';
 
 // ===== CATEGORY CONFIG =====
@@ -1248,20 +1248,52 @@ function handleCustomSubcat() {
   document.getElementById('eSubcat').value = v;
 }
 
-function openExpenseModal(batchIdPreset) {
-  ['eDesc','eRef','eVendor','eNotes'].forEach(f => document.getElementById(f).value = '');
-  document.getElementById('eCat').value = 'Operações';
-  document.getElementById('eAmount').value = '';
-  document.getElementById('eDate').value = new Date().toISOString().split('T')[0];
-  document.getElementById('ePayMethod').value = '';
-  document.getElementById('eSubcat').value = '';
-  document.getElementById('eCustomSubcat').value = '';
+function openExpenseModal(idOrBatchPreset) {
   populateExpenseBatchFilters();
-  updateSubcatChips();
-  if (batchIdPreset) document.getElementById('eBatch').value = batchIdPreset;
+  // Determine if we were passed an existing expense id (edit) vs a batch id preset (new, from batch view)
+  const existing = typeof idOrBatchPreset === 'string' ? expenses.find(x => x._id === idOrBatchPreset) : null;
+
+  if (existing) {
+    editingExpenseId = existing._id;
+    document.getElementById('expenseModalTitle').textContent = 'Editar Despesa';
+    document.getElementById('saveExpenseBtn').textContent = 'Salvar Alterações';
+    document.getElementById('eDesc').value = existing.desc || '';
+    document.getElementById('eCat').value = existing.category || 'Operações';
+    document.getElementById('eAmount').value = existing.amount || '';
+    document.getElementById('eDate').value = existing.date || new Date().toISOString().split('T')[0];
+    document.getElementById('ePayMethod').value = existing.payMethod || '';
+    document.getElementById('eRef').value = existing.ref || '';
+    document.getElementById('eVendor').value = existing.vendor || '';
+    document.getElementById('eNotes').value = existing.notes || '';
+    document.getElementById('eBatch').value = existing.batchId || '';
+    updateSubcatChips();
+    document.getElementById('eSubcat').value = existing.subcat || '';
+    // Highlight matching chip, or drop into custom field if no chip matches
+    const chips = document.querySelectorAll('.subcat-chip');
+    let matched = false;
+    chips.forEach(c => {
+      if (c.textContent === existing.subcat) { c.classList.add('selected'); matched = true; }
+      else c.classList.remove('selected');
+    });
+    document.getElementById('eCustomSubcat').value = matched ? '' : (existing.subcat || '');
+  } else {
+    editingExpenseId = null;
+    document.getElementById('expenseModalTitle').textContent = 'Adicionar Despesa';
+    document.getElementById('saveExpenseBtn').textContent = 'Adicionar Despesa';
+    ['eDesc','eRef','eVendor','eNotes'].forEach(f => document.getElementById(f).value = '');
+    document.getElementById('eCat').value = 'Operações';
+    document.getElementById('eAmount').value = '';
+    document.getElementById('eDate').value = new Date().toISOString().split('T')[0];
+    document.getElementById('ePayMethod').value = '';
+    document.getElementById('eSubcat').value = '';
+    document.getElementById('eCustomSubcat').value = '';
+    document.getElementById('eBatch').value = '';
+    updateSubcatChips();
+    if (typeof idOrBatchPreset === 'string') document.getElementById('eBatch').value = idOrBatchPreset;
+  }
   document.getElementById('expenseModal').classList.add('open');
 }
-function closeExpenseModal() { document.getElementById('expenseModal').classList.remove('open'); }
+function closeExpenseModal() { document.getElementById('expenseModal').classList.remove('open'); editingExpenseId = null; }
 
 function populateExpenseBatchFilters() {
   ['eBatch','expBatchFilter'].forEach(id => {
@@ -1287,14 +1319,21 @@ async function saveExpense() {
     vendor: document.getElementById('eVendor').value.trim(),
     notes: document.getElementById('eNotes').value.trim()
   };
-  setBtn('saveExpenseBtn', true, 'Adicionar');
+  const isEditing = !!editingExpenseId;
+  setBtn('saveExpenseBtn', true, isEditing ? 'Salvar Alterações' : 'Adicionar Despesa');
   try {
-    const created = await apiFetch('/expenses', { method: 'POST', body: JSON.stringify(payload) });
-    expenses.unshift(created);
+    if (isEditing) {
+      const updated = await apiFetch('/expenses/' + editingExpenseId, { method: 'PUT', body: JSON.stringify(payload) });
+      const idx = expenses.findIndex(x => x._id === editingExpenseId);
+      if (idx !== -1) expenses[idx] = updated;
+    } else {
+      const created = await apiFetch('/expenses', { method: 'POST', body: JSON.stringify(payload) });
+      expenses.unshift(created);
+    }
     closeExpenseModal(); renderExpensePage(); renderBatches();
-    showToast('Despesa salva! ✓');
+    showToast(isEditing ? 'Despesa atualizada! ✓' : 'Despesa salva! ✓');
   } catch (e) { showToast('Erro: ' + e.message, 'error'); }
-  finally { setBtn('saveExpenseBtn', false, 'Adicionar Despesa'); }
+  finally { setBtn('saveExpenseBtn', false, isEditing ? 'Salvar Alterações' : 'Adicionar Despesa'); }
 }
 
 async function deleteExpense(id) {
@@ -1479,7 +1518,7 @@ function renderExpenseTable() {
       <th style="width:75px;">Grupo</th>
       <th style="width:75px;">Ref.</th>
       <th style="width:90px;">Valor</th>
-      <th style="width:50px;"></th>
+<th style="width:120px;"></th>
     </tr></thead>
     <tbody>${list.map(e => {
       const d = e.date ? new Date(e.date).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'2-digit'}) : '—';
@@ -1498,7 +1537,10 @@ function renderExpenseTable() {
         <td>${bname?`<span style="color:var(--purple);font-size:0.72rem;">${bname}</span>`:'<span style="color:var(--muted);font-size:0.7rem;">—</span>'}</td>
         <td style="font-family:'DM Mono',monospace;font-size:0.71rem;color:var(--muted);">${e.ref||'—'}</td>
         <td class="amount due" style="font-weight:600;">${fmt(e.amount)}</td>
-        <td><button class="btn btn-danger btn-sm" onclick="deleteExpense('${e._id}')">✕</button></td>
+        <td><div class="action-btns">
+          <button class="btn btn-outline btn-sm" onclick="openExpenseModal('${e._id}')">Editar</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteExpense('${e._id}')">✕</button>
+        </div></td>
       </tr>`;
     }).join('')}</tbody>
     <tfoot><tr style="background:var(--surface2);">
