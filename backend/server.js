@@ -145,7 +145,13 @@ app.get('/api/expenses', async (req, res) => {
     res.json(expenses);
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
-
+app.put('/api/expenses/:id', async (req, res) => {
+  try {
+    const expense = await Expense.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!expense) return res.status(404).json({ error: 'Expense not found' });
+    res.json(expense);
+  } catch (e) { res.status(400).json({ error: e.message }); }
+});
 app.post('/api/expenses', async (req, res) => {
   try {
     const expense = new Expense(req.body);
